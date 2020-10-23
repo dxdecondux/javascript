@@ -1,6 +1,6 @@
 # Typescript Style Guide() {
 
-*Un enfoque altamente razonable para JavaScript*
+*Un enfoque altamente razonable para TypeScript*
 
 
 ## Tabla de Contenido
