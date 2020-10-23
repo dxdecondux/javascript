@@ -1,4 +1,4 @@
-# JavaScript Style Guide() {
+# Typescript Style Guide() {
 
 *Un enfoque altamente razonable para JavaScript*
 
