@@ -1,7 +1,8 @@
 
-# Typescript Style Guide() {
 
-*Un enfoque altamente razonable para JavaScript*
+# TypeScript Style Guide() {
+
+*Un enfoque altamente razonable para TypeScript*
 
 
 ## Tabla de Contenido
@@ -9,56 +10,30 @@
   
 
 1.  [Tipos](#tipos)
+2.  [Referencias](#referencias)
+3.  [Objetos](#objetos)
+4.  [Arreglos](#arreglos)
+5.  [Destructuring](#destructuring)
+6.  [Cadenas de Texto](#cadenas-de-texto)
+7.  [Funciones](#funciones)
+8.  [Notación de Funciones de Flecha](#notación-de-funciones-de-flecha)
+9.  [Clases y Constructores](#clases-y-constructores)
+10.  [Módulos](#módulos)
+11.  [Iteradores y Generadores](#iteradores-y-generadores)
+12.  [Propiedades](#propiedades)
+13.  [Variables](#variables)
+14.  [Expresiones de comparación e igualdad](#expresiones-de-comparación-e-igualdad)
+15.  [Bloques](#bloques)
+16.  [Comentarios](#comentarios)
+17.  [Espacios en blanco](#espacios-en-blanco)
+18.  [Comas](#comas)
+19.  [Puntos y Comas](#puntos-y-comas)
+20.  [Convenciones de nomenclatura](#convenciones-de-nomenclatura)
+21.  [Funciones de Acceso](#funciones-de-acceso) 
+22.  [Captura de errores](#captura-de-errores)
+23.  [Licencia](#licencia)
 
-1.  [Referencias](#referencias)
 
-1.  [Objetos](#objetos)
-
-1.  [Arreglos](#arreglos)
-
-1.  [Destructuring](#destructuring)
-
-1.  [Cadenas de Texto](#cadenas-de-texto)
-
-1.  [Funciones](#funciones)
-
-1.  [Notación de Funciones de Flecha](#notación-de-funciones-de-flecha)
-
-1.  [Clases y Constructores](#clases-y-constructores)
-
-1.  [Módulos](#módulos)
-
-1.  [Iteradores y Generadores](#iteradores-y-generadores)
-
-1.  [Propiedades](#propiedades)
-
-1.  [Variables](#variables)
-
-1.  [Hoisting](#hoisting)
-
-1.  [Expresiones de comparación e igualdad](#expresiones-de-comparación-e-igualdad)
-
-1.  [Bloques](#bloques)
-
-1.  [Comentarios](#comentarios)
-
-1.  [Espacios en blanco](#espacios-en-blanco)
-
-1.  [Comas](#comas)
-
-1.  [Puntos y Comas](#puntos-y-comas)
-
-1.  [Casting de Tipos y Coerción](#casting-de-tipos-y-coerción)
-
-1.  [Convenciones de nomenclatura](#convenciones-de-nomenclatura)
-
-1.  [Funciones de Acceso](#funciones-de-acceso)
-
-1.  [Pruebas](#pruebas)
-
-1.  [Licencia](#licencia)
-
-  
 
 ## Tipos
 
@@ -79,21 +54,15 @@
 +  `undefined`
 
   
-
 ```typescript
-
 const  foo  :  number  =  1;
 let bar :  number  = foo;
 bar =  9;
-
-
 console.log(foo, bar);  // => 1, 9
-
 ```
 
 -  **Complejo**: Cuando accedes a un tipo complejo, manejas la referencia a su valor.
 
-  
 
 +  `object`
 
@@ -104,14 +73,10 @@ console.log(foo, bar);  // => 1, 9
   
 
 ```javascript
-
 const  foo  :  number  =  [1,  2];
 const  bar  = foo;
-
 bar[0]  =  9;
-
 console.log(foo[0], bar[0]);  // => 9, 9
-
 ```
 
   
@@ -130,14 +95,13 @@ que puede llevar a bugs y dificultad para comprender el código.
 
 
 ```javascript
-
 // mal
-var a :  number  =  1;
-var b :  number  =  2;
+var a : number = 1;
+var b : number = 2;
  
 // bien
-const  a:  number  =  1;
-const  b:  number  =  2;
+const a: number = 1;
+const b: number = 2;
 ```
 
   
@@ -150,14 +114,14 @@ diferencia del alcance a nivel de función de `var`.
 
 ```javascript
 // mal
-var count: number  =  1;
+var count: number = 1;
 if  (true)  {
 	count +=  1;
 }
 
 // bien, usa el let
-let count: number  =  1;
-if  (true)  {
+let count: number = 1;
+if (true) {
 	count +=  1;
 }
 ```
@@ -189,7 +153,7 @@ interface SupermanInterface {
 	hidden:boolean;
 }
 
-const superman : SupermanInterface = {
+const superman: SupermanInterface = {
 	defaults: { clark: 'kent' },
 	hidden: true,
 };
@@ -199,9 +163,9 @@ const superman : SupermanInterface = {
 
 ```javascript
 // mal
-const  item =  new  Object();
+const item = new Object();
 // bien
-const  item: Object  =  {};
+const item: Object = {};
 ```
 
 - No uses [palabras reservadas](http://es5.github.io/#x7.6.1) para nombres de propiedades. No funciona en IE8 [Más información](https://github.com/airbnb/javascript/issues/61). No hay problema de usarlo en módulos de ES6 y en código de servidor.
@@ -210,13 +174,13 @@ const  item: Object  =  {};
 
 ```javascript
 // mal
-const  superman  :  SupermanInterface  =  {
+const superman: SupermanInterface = {
 	default:  { clark:  'kent'  },
 	private:  true
 };
 
 // bien
-const  superman  :  SupermanInterface  =  {
+const superman: SupermanInterface = {
 	defaults:  { clark:  'kent'  },
 	hidden:  true
 };
@@ -224,21 +188,20 @@ const  superman  :  SupermanInterface  =  {
 
 - Usa sinónimos legibles en lugar de palabras reservadas.
 
-  
 
 ```javascript
 // mal
-const  superman  :  SupermanInterface  =  {
-	class:  'alien'
+const superman: SupermanInterface = {
+	class: 'alien'
 };
 
 // mal
-const  superman  :  SupermanInterface  =  {
+const superman: SupermanInterface = {
 	klass:  'alien'
 };
 
 // bien
-const  superman  :  SupermanInterface  =  {
+const superman: SupermanInterface = {
 	type:  'alien'
 };
 ```
@@ -256,51 +219,67 @@ const  superman  :  SupermanInterface  =  {
 
 ```javascript
 // mal
-const  items  =  new  Array();
+const items = new Array();
 
 // bien
-const  items  :  string[]  =  [];
+const items: string[] = [];
 ```
-  
+- Al declarar matrices, se debe agregar un espacio al final después de cada delimitador de coma para mejorar la legibilidad.
+```javascript
+// mal
+objetos = [1,2,3,4];
+
+// bien
+objetos = [1, 2, 3, 4];
+```
+- Al declarar una matriz indexada de varias líneas, el elemento de la matriz inicial debe comenzar en la siguiente línea. Si es así, debe manejar 2 tabs de espacio adicionales a la línea que contiene la declaración de la matriz, y todas las líneas sucesivas deben tener la misma sangría; el paréntesis de cierre debe estar en una línea por sí mismo en el mismo nivel de sangría que la línea que contiene la declaración de la matriz, por línea debemos como manejar como máximo 3 elementos.
+```javascript
+// bien
+sampleArray = [
+	1, 2, 3, 
+	'Zend', 'Studio', 'Name',
+	a, b, c,
+	56.44, d, 500,
+];
+```
 
 - Usa Array#push, en vez de asignación directa, para agregar elementos a un arreglo.
 
   
 ```javascript
-const  someStack  :  string[]  =  [];
+const someStack: string[] = [];
 
 // mal
-someStack[someStack.length]  =  'abracadabra';
+someStack[someStack.length] = 'abracadabra';
 
 // bien
 someStack.push('abracadabra');
 ```
-  
 
 - Usa [spread de arrays](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Operadores/Spread_operator) para copiar arreglos.
 
  
 ```javascript
-const  items:  number[]  =  [1,  2,  3,  4];
-const  len  = items.length;
-const  itemsCopy  :  number[]  =  [];
+const items: number[] = [1,  2,  3,  4];
+const len = items.length;
+const itemsCopy: number[] = [];
 
 let i :  number;
 
 // mal
-for  (i =  0; i < len; i++)  {
-	itemsCopy[i]  = items[i];
+for (i = 0; i < len; i++)  {
+	itemsCopy[i] = items[i];
 }
 
 // bien
-const  itemsCopy  :  number[]  =  [...items];
+const  itemsCopy: number[] = [...items];
 ```
 - Para convertir un objeto ["array-like" (similar a un arreglo)](https://www.inkling.com/read/javascript-definitive-guide-david-flanagan-6th/chapter-7/array-like-objects) a un arreglo, usa Array#from.
 
  
 ```javascript
-const  foo  = document.querySelectorAll('.foo');
-const  nodes  =  Array.from(foo);
+const foo = document.querySelectorAll('.foo');
+const nodes = Array.from(foo);
 ```
 
   
@@ -322,43 +301,41 @@ const  nodes  =  Array.from(foo);
  
 ```javascript
 // mal
-const  getFullName  =  (user  :  string)  =>  {
-	const  firstName  = user.firstName;
-	const  lastName  = user.lastName;
-	return  `${firstName}  ${lastName}`;
+const getFullName = (user: string) => {
+	const firstName = user.firstName;
+	const lastName = user.lastName;
+	return `${firstname} ${lastName}`;
 }
 
 // bien
-const  getFullName  =  (  user:  UserInterface)  =>  {
-	const  {  firstName,  lastName  }  = user;
-	return  `${firstName}  ${lastName}`;
+const getFullName = ( user: UserInterface) => {
+	const { firstName, lastName } = user;
+	return `${firstName} ${lastName}`;
 };
 
 // mejor
-const  getFullName  =  ({  firstName,  lastName  }:  UserInterface)  =>  `${firstName}  ${lastName}`;
+const getFullName = ({ firstName, lastName }: UserInterface) => `${firstName} ${lastName}`;
 ```
 
   
 - Usa array destructuring.
 
-  
-
 ```javascript
-const  arr  :  number[]  =  [1,  2,  3,  4];
+const arr: number[] = [1, 2, 3, 4];
 
 // mal
-const  first  = arr[0];
-const  second  = arr[1];
+const first = arr[0];
+const second = arr[1];
 
 // bien
-const  [first,  second]  = arr;
+const [first, second] = arr;
 ```
 
 - Usa object destructuring para múltiple valores de retorno de una función.
 
 ```javascript
 // el que llama elige solo la data que necesita
-const  {  left,  top  }  =  processInput(input);
+const { left, top  } = processInput(input);
 ```
   
 
@@ -421,13 +398,13 @@ const errorMessage = 'This is a super long error that was thrown because' +
 
 ```javascript
 // mal
-const  sayHi  =  (name:  string)  =>  'How are you, '  + name +  '?';
+const sayHi = (name: string) => 'How are you, ' + name + '?';
 
 // mal
-const  sayHi  =  (name:  string)  =>  ['How are you, ', name,  '?'].join();
+const sayHi = (name: string) => ['How are you, ', name, '?'].join();
 
 // bien
-const  sayHi  =  (name:  string)  =>  `How are you, ${name}?`;
+const sayHi = (name:  string) => `How are you, ${name}?`;
 ```
 
 - Nunca uses `eval()` en una cadena de texto, abre una caja de Pandora de vulnerabilidades.
@@ -439,10 +416,10 @@ const  sayHi  =  (name:  string)  =>  `How are you, ${name}?`;
 
 ```javascript
 // mal
-function  foo()  {}
+function foo() {}
 
 // bien
-const  foo  =  ()  =>  {};
+const foo = () => {};
 ```
 
 - Nunca declares una función en un bloque que no sea de función (if, while, etc). En vez de ello, asigna la función a una variable. Los navegadores te permitirán hacerlo pero todos ellos lo interpretarán de modo diferente, lo que es lamentable.
@@ -453,36 +430,32 @@ const  foo  =  ()  =>  {};
   
 ```javascript
 // mal
-if  (currentUser)  {
-	const  test  =  ()  =>  {
+if  ( currentUser ) {
+	const test = () => {
 		console.log('Nope.');
 	}
 }
 
 // bien
-let  test:  Function;
-if  (currentUser)  {
-	test  =  ()  =>  {
-	console.log('Yup.');
+let test: Function;
+if ( currentUser ) {
+	test = () => {
+		console.log('Yup.');
 	};
 }
 ```
 
-  
-
 - Nunca nombres a un parámetro como `arguments`, esto tendrá precedencia sobre el objeto `arguments` que es brindado en cada ámbito de función.
-
-  
 
 ```javascript
 
 // mal
-const  nope  =  (name  :string,  options:  {},  arguments:  {})  =>  {
+const nope = (name: string, options: string[], arguments: string[]) => {
 	// ...algo...
 }
 
 // bien
-const  yup  =  (name  :string,  options:  {},  args:  {})  =>  {
+const yup = (name: string, options: string[], args: string[]) => {
 	// ...algo...
 }
 ```
@@ -500,14 +473,14 @@ const  yup  =  (name  :string,  options:  {},  args:  {})  =>  {
 
 ```javascript
 // mal
-[1,  2,  3].map(function  (x)  {
-	const  y  = x +  1;
+[1, 2, 3].map(function (x) {
+	const y = x + 1;
 	return x * y;
 });
 
 // bien
-[1,  2,  3].map((x:  number)  =>  {
-	const  y  = x +  1;
+[1, 2, 3].map((x: number) => {
+	const y = x + 1;
 	return x * y;
 });
 ```
@@ -519,40 +492,40 @@ De otro modo, mantén las llaves y usa una sentencia de retorno.
 
 ```javascript
 // mal
-[1,  2,  3].map((number:  number)  =>  {
-	const  nextNumber:  number  = number +  1;
+[1, 2, 3].map((number: number) => {
+	const  nextNumber: number = number + 1;
 	`A string containing the ${nextNumber}.`;
 });
 
 // bien
-[1,  2,  3].map((number:  number)  =>  `A string containing the ${number}.`);
+[1, 2, 3].map((number: number) => `A string containing the ${number}.`);
 
 // bien
-[1,  2,  3].map((number:  number)  =>  {
-	const  nextNumber:  number  = number +  1;
-	return  `A string containing the ${nextNumber}.`;
+[1, 2, 3].map((number: number) => {
+	const nextNumber: number = number + 1;
+	return `A string containing the ${nextNumber}.`;
 });
 
 // bien
-[1,  2,  3].map((number:  number,  index:  number)  =>  ({
+[1, 2, 3].map((number: number, index: number) => ({
 	[index]: number,
 }));
 
 // Sin efectos colaterales para retorno implícito
-function  foo(callback:  Function)  {
-	const  val  =  callback();
-	if  (val ===  true)  {
+function foo(callback: Function) {
+	const val = callback();
+	if  (val === true)  {
 	// Do something if callback returns true
 	}
 }
 
-let bool =  false;
+let bool = false;
 
 // mal
-foo(()  => bool =  true);
+foo(() => bool = true);
 
 // bien
-foo(()  =>  {
+foo(() => {
 	bool =  true;
 });
 
@@ -563,14 +536,14 @@ foo(()  =>  {
 
 ```javascript
 // mal
-['get',  'post',  'put'].map((httpMethod:  string)  =>  Object.prototype.hasOwnProperty.call(
+['get', 'post', 'put'].map((httpMethod: string) => Object.prototype.hasOwnProperty.call(
 		httpMagicObjectWithAVeryLongName,
 		httpMethod,
 	)
 );
   
 // bien
-['get',  'post',  'put'].map((httpMethod:  string)  =>  (
+['get', 'post', 'put'].map((httpMethod: string) => (
 	Object.prototype.hasOwnProperty.call(
 		httpMagicObjectWithAVeryLongName,
 		httpMethod,
@@ -583,13 +556,13 @@ foo(()  =>  {
  
 ```javascript
 //Mal
-const  funcion  =  (name:  string)  => name;
+const funcion = (name: string) => name;
 
 //Bien
-const  funcion  =  (name:  string)  :string  =>  `Hola ${name}`;
+const funcion = (name: string) : string => `Hola ${name}`;
 
 //Bien
-const  funcion  =  (name:  string):  void  =>  {
+const funcion = (name: string) : void => {
 	console.log(`Hola ${name}`);
 };
 ```
@@ -599,18 +572,18 @@ const  funcion  =  (name:  string):  void  =>  {
 ```javascript
 
 // mal
-const  itemHeight  =  (item:  ItemInterface)  => item.height >  256  ? item.largeSize : item.smallSize;
+const itemHeight = (item: ItemInterface) => item.height > 256 ? item.largeSize : item.smallSize;
 
 // mal
-const  itemHeight  =  (item:  ItemInterface)  => item.height >  256  ? item.largeSize : item.smallSize;
+const itemHeight = (item:  ItemInterface) => item.height >  256 ? item.largeSize : item.smallSize;
 
 // bien
-const  itemHeight  =  (item:  ItemInterface)  =>  (item.height >  256  ? item.largeSize : item.smallSize);
+const itemHeight = (item:  ItemInterface) => (item.height > 256 ? item.largeSize : item.smallSize);
 
 // bien
-const  itemHeight  =  (item:  ItemInterface)  =>  {
-	const  {  height,  largeSize,  smallSize  }  = item;
-	return height >  256  ? largeSize : smallSize;
+const itemHeight = (item:  ItemInterface) => {
+	const { height, largeSize, smallSize } = item;
+	return height > 256 ? largeSize : smallSize;
 };
 ```
   
@@ -621,27 +594,31 @@ const  itemHeight  =  (item:  ItemInterface)  =>  {
 
 ## Clases y Constructores
 
-  
-
+- Los nombres de las clases deben iniciar de manera capitalizada y el nombre debe hacer referencia a la clase.
+```javascript
+//mal
+class casesLogic {
+}
+//bien
+class CasesLogic {
+}
+```
 - Siempre usa `class`. Evita manipular `prototype` directamente.
-
-  
 
 > ¿Por qué? La sintaxis `class` es más concisa y fácil con la cual lidiar.
 
-  
 
 ```javascript
-class  Queue  {
-	queue:  number[];
+class Queue {
+	queue: number[];
 
-	constructor(contents  =  [])  {
-		this.queue =  [...contents];
+	constructor(contents = [])  {
+		this.queue = [...contents];
 	}
 
-	pop()  {
-		const  value  =  this.queue[0];
-		this.queue.splice(0,  1);
+	pop() {
+		const value = this.queue[0];
+		this.queue.splice(0, 1);
 		return value;
 	}
 }
@@ -654,59 +631,58 @@ class  Queue  {
 
 ```javascript
 // mal
-Jedi.prototype.jump  =  function  ()  {
-	this.jumping =  true;
+Jedi.prototype.jump = function () {
+	this.jumping = true;
 	return  true;
 };
 
-Jedi.prototype.setHeight  =  function  (height)  {
+Jedi.prototype.setHeight = function (height) {
 	this.height = height;
 };
 
-const  luke  =  new  Jedi();
-luke.jump();  // => true
-luke.setHeight(20);  // => undefined
+const luke = new Jedi();
+luke.jump(); // => true
+luke.setHeight(20); // => undefined
 
 // bien
-class  Jedi  {
-	jumping:boolean  =  false;
+class Jedi {
+	jumping:boolean = false;
 
-	height:number  =  0;
+	height:number = 0;
 
-	jump()  {
-		this.jumping =  true;
+	jump() {
+		this.jumping = true;
 		return  this;
 	}
 
-	setHeight(height)  {
+	setHeight(height) {
 		this.height = height;
-		return  this;
+		return this;
 	}
 }
 
-const  luke  =  new  Jedi();
+const luke = new Jedi();
 luke.jump().setHeight(20);
 ```
 
-  
 
 - Está bien escribir un método `toString()` personalizado, solo asegúrate que funcione correctamente y no cause efectos colaterales.
 
   
 ```javascript
-class  Jedi  {
-	name:  string;
+class Jedi {
+	name: string;
 
-	constructor(options?:  Jedi)  {
-		this.name = options.name ||  'no name';
+	constructor(options?: Jedi)  {
+		this.name = options.name || 'no name';
 	}
 
-	getName()  {
-		return  this.name;
+	getName() {
+		return this.name;
 	}
 
-	toString()  {
-		return  `Jedi - ${this.getName()}`;
+	toString() {
+		return `Jedi - ${this.getName()}`;
 	}
 }
 ```
@@ -723,16 +699,16 @@ class  Jedi  {
  
 ```javascript
 // mal
-const  AirbnbStyleGuide  =  require('./AirbnbStyleGuide');
-module.exports  = AirbnbStyleGuide.es6;
+const AirbnbStyleGuide = require('./AirbnbStyleGuide');
+module.exports = AirbnbStyleGuide.es6;
   
 // bien
-import AirbnbStyleGuide from  './AirbnbStyleGuide';
-export  default AirbnbStyleGuide.es6;
+import AirbnbStyleGuide from './AirbnbStyleGuide';
+export default AirbnbStyleGuide.es6;
 
 // mejor
-import  { es6 }  from  './AirbnbStyleGuide';
-export  default es6;
+import { es6 } from './AirbnbStyleGuide';
+export default es6;
 ```
 
   
@@ -745,10 +721,10 @@ export  default es6;
 
 ```javascript
 // mal
-import  *  as AirbnbStyleGuide from  './AirbnbStyleGuide';
+import * as AirbnbStyleGuide from './AirbnbStyleGuide';
 
 // bien
-import AirbnbStyleGuide from  './AirbnbStyleGuide';
+import AirbnbStyleGuide from './AirbnbStyleGuide';
 ```
 
 - Y no exportes directamente lo que traigas de un import.
@@ -758,12 +734,12 @@ import AirbnbStyleGuide from  './AirbnbStyleGuide';
 ```javascript
 // mal
 // filename es6.js
-export  { es6 as  default  }  from  './AirbnbStyleGuide';
+export { es6 as  default  } from './AirbnbStyleGuide';
 
 // bien
 // filename es6.js
-import  { es6 }  from  './AirbnbStyleGuide';
-export  default es6;
+import { es6 } from './AirbnbStyleGuide';
+export default es6;
 ```
 
   
@@ -774,19 +750,19 @@ export  default es6;
 
 ```javascript
 // mal
-import foo from  'foo';
+import foo from 'foo';
 
 // … some other imports … //
-import  { named1, named2 }  from  'foo';
+import { named1, named2 } from 'foo';
 
 // bien
-import foo,  { named1, named2 }  from  'foo';
+import foo, { named1, named2 } from 'foo';
 
 // bien
-import foo,  {
+import foo, {
 	named1,
 	named2,
-}  from  'foo';
+} from 'foo';
 ```
 
   
@@ -799,12 +775,12 @@ import foo,  {
 
 ```javascript
 // mal
-let foo:  number  =  3;
-export  { foo };
+let foo: number = 3;
+export { foo };
 
 // bien
-const  foo:  number  =  3;
-export  { foo };
+const foo: number = 3;
+export foo;
 ```
 
 
@@ -815,11 +791,11 @@ export  { foo };
 
 ```javascript
 // mal
-export  function  foo()  {}
+export function foo() {}
 
 // bien
-const  foo  =  ()  =>  {  };
-export  default foo;
+const foo = () => { };
+export default foo;
 ```
 
 - Pon todos los `import`s encima de las sentencias de no importación.
@@ -831,13 +807,13 @@ export  default foo;
 
 ```javascript
 // mal
-import foo from  'foo';
+import foo from 'foo';
 foo.init();
-import bar from  'bar';
+import bar from 'bar';
 
 // bien
-import foo from  'foo';
-import bar from  'bar';
+import foo from 'foo';
+import bar from 'bar';
 
 foo.init();
 ```
@@ -852,16 +828,16 @@ foo.init();
 
 ```javascript
 // mal
-import  {longNameA, longNameB, longNameC, longNameD, longNameE}  from  'path';
+import {longNameA, longNameB, longNameC, longNameD, longNameE} from 'path';
 
 // bien
-import  {
+import {
 	longNameA,
 	longNameB,
 	longNameC,
 	longNameD,
 	longNameE,
-}  from  'path';
+} from 'path';
 ```
   
 
@@ -877,32 +853,32 @@ import  {
   
 ```javascript
 
-const  luke:  Jedinterface  =  {
-	jedi:  true,
-	age:  28
+const luke: Jedinterface = {
+	jedi: true,
+	age: 28
 };
 
 // mal
-const  isJedi:  boolean  = luke['jedi'];
+const isJedi: boolean = luke['jedi'];
 
 // bien
-const  isJedi:  boolean  = luke.jedi;
+const isJedi: boolean = luke.jedi;
 ```
 
 - Usa la notación subscript `[]` cuando accedas a las propiedades con una variable.
 
 
 ```javascript
-const  luke:  Jedinterface  =  {
+const luke: Jedinterface  =  {
 	jedi:  true,
 	age:  28
 };
 
-function  getProp(prop:  string)  {
+function getProp(prop:  string)  {
 	return luke[prop];
 }
 
-const  isJedi  =  getProp('jedi');
+const isJedi = getProp('jedi');
 ```
 
   
@@ -918,14 +894,14 @@ const  isJedi  =  getProp('jedi');
   
 ```javascript
 // mal
-superPower:SuperPower =  new  SuperPower();
+superPower:SuperPower = new SuperPower();
 
 // bien
-const  superPower:  SuperPower=  new  SuperPower();
+const  superPower: SuperPower= new SuperPower();
 o
 // bien
-let aPower:  string;
-aPower =  "fly";  // esto puede cambiar a otro poder posteriormente
+let aPower: string;
+aPower = "fly"; // esto puede cambiar a otro poder posteriormente
 ```
 
 - Siempre al declarar variables, definir el tipo de dato de la variable, para facilitar su comprensión y uso.
@@ -974,20 +950,20 @@ const dragonball:string = 'z';
 ```javascript
 // mal
 let i:number, len:number, dragonball:string,
-items:Items  =  getItems(),
-goSportsTeam:boolean  =  true;
+items:Items = getItems(),
+goSportsTeam:boolean = true;
 
 
 // mal
 let i:number;
-const  items:Items  =  getItems();
+const items:Items = getItems();
 let dragonball:string;
-const  goSportsTeam:boolean  =  true;
+const goSportsTeam:boolean = true;
 let len;
 
 // bien
-const  goSportsTeam:boolean  =  true;
-const  items:Items  =  getItems();
+const goSportsTeam:boolean = true;
+const items:Items = getItems();
 let dragonball:string;
 let i:number;
 let length:number;
@@ -1018,7 +994,7 @@ let length:number;
 +  **Strings** son evaluados como **false** si es una cadena de texto vacía `''`, de otro modo son **true**
 
 ```javascript
-if  ([0]  &&  [])  {
+if ([0] && []) {
 	// true
 	// un arreglo es un objeto (incluso uno vacío), los objetos son evaluados como true
 }
@@ -1030,22 +1006,22 @@ if  ([0]  &&  [])  {
 
 ```javascript
 // mal
-if  (name !==  '')  {
+if (name !== '') {
 	// ...cosas...
 }
 
 // bien
-if  (name)  {
+if (name) {
 	// ...cosas...
 }
   
 // mal
-if  (collection.length  >  0)  {
+if (collection.length > 0) {
 	// ...cosas...
 }
  
 // bien
-if  (collection.length)  {
+if (collection.length) {
 	// ...cosas...
 }
 ```
@@ -1062,36 +1038,36 @@ if  (collection.length)  {
  
 ```javascript
 // mal
-switch  (foo)  {
-	case  1:
-		let x =  1;
+switch (foo) {
+	case 1:
+		let x = 1;
 		break;
-	case  2:
-		const  y  =  2;
+	case 2:
+		const y = 2;
 		break;
-	case  3:
-		function  f()  {}
+	case 3:
+		function f() {}
 		break;
 	default:
 		bar();
 }
 
 // bien
-switch  (foo)  {
-	case  1:  {
-		let x:number  =  1;
+switch (foo) {
+	case 1: {
+		let x: number = 1;
 		break;
 	}
-	case  2:  {
-		const  y:number  =  2;
+	case 2: {
+		const y: number = 2;
 		break;
 	}
-	case  3:  {
-		const  f  =  ()  =>  {}
+	case 3: {
+		const f = () => {}
 		break;
 	}
-	default:  {
-		class  C  {}  bar();
+	default: {
+		class C {} bar();
 	}
 }
 ```
@@ -1101,19 +1077,31 @@ switch  (foo)  {
 
 ## Bloques
   
-- Usa llaves con todos los bloques.
+- Usa llaves con todos los bloques, así no sea necesario, para facilitar la lectura.
   
 ```javascript
 // mal
-if  (test)
-return  false;
+if (test)
+return false;
   
 // mal
-if  (test)  return  false;
+if (test) return false;
 
 // bien
-if  (test)  {
-	return  false;
+if (test) {
+	return false;
+}
+```
+- Se debe especificar la definición de un bloque de código con un corchete al final y espacio para
+generar nuestro código
+```javascript
+// mal
+const funcion = (param: string) =>
+{
+}
+
+// bien
+const funcion = (param: string) => {
 }
 ```
 
@@ -1121,19 +1109,19 @@ if  (test)  {
 
 ```javascript
 // mal
-if  (test)  {
+if (test) {
 	thing1();
 	thing2();
 }
-else  {
+else {
 	thing3();
 }
 
 // bien
-if  (test)  {
+if (test) {
 	thing1();
 	thing2();
-}  else  {
+} else {
 	thing3();
 }
 ```
@@ -1149,13 +1137,17 @@ if  (test)  {
 
 ```javascript
 /**
-* make() returns a new element
-* based on the passed in tag name
+* Descripción de la función
 *
-* @param {String} tag
-* @return {Element} element
+* Larga descripción de la función
+*
+* @param {type} tag - Un parámetro tipo string
+* @param {type=} tag - Un parámetro opcional
+* @param {type} [tag] - Otra forma de parámetro opcional (JSDoc sintaxis)
+* @author Name <email@email.com>
+* @return {type} tag
 */
-const  make  =  (tag:string)  :  Element {
+const make = (tag: string) : Element {
 	// ...stuff...
 	return element;
 }
@@ -1167,17 +1159,17 @@ const  make  =  (tag:string)  :  Element {
 
 ```javascript
 // mal
-const  active:  boolean  =  true;  // is current tab
+const active: boolean = true;  // is current tab
 
 // bien
 // is current tab
-const  active:  boolean  =  true;
+const active: boolean = true;
 
 // bien
-function  getType()  {
+function getType()  {
 	console.log('fetching type...');
 	// set the default type to 'no type'
-	const  type:string  =  'no type';
+	const type:string = 'no type';
 	return type;
 }
 ```
@@ -1189,11 +1181,11 @@ function  getType()  {
 - Usa `// FIXME:` para anotar problemas.
 
 ```javascript
-class  Calculator  extends  Abacus  {
-	constructor()  {
+class Calculator extends Abacus {
+	constructor() {
 		super();
 		// FIXME: shouldn't use a global here
-		total:number =  0;
+		total:number = 0;
 	}
 }
 ```
@@ -1202,11 +1194,11 @@ class  Calculator  extends  Abacus  {
 
 
 ```javascript
-class  Calculator  extends  Abacus  {
-	constructor()  {
+class Calculator extends Abacus  {
+	constructor() {
 		super();
 		// TODO: total should be configurable by an options param
-		this.total =  0;
+		this.total = 0;
 	}
 }
 ```
@@ -1224,17 +1216,17 @@ class  Calculator  extends  Abacus  {
 
 ```javascript
 // mal
-const  foo  =  ()  :  void  =>  {
-∙∙const  name;
+const foo = () : void => {
+∙∙const name;
 }
 
 // mal
-function  bar()  :  void{
-∙∙∙∙const  name;
+function bar() : void {
+∙∙∙∙const name;
 }
 
 // bien
-const  baz  =  ()  :  void  =>  {
+const baz = () : void => {
 \t\tconst name;
 }
 
@@ -1245,14 +1237,14 @@ const  baz  =  ()  :  void  =>  {
 ```javascript
 // mal
 dog.set('attr',{
-	age:  '1 year',
-	breed:  'Bernese Mountain Dog'
+	age: '1 year',
+	breed: 'Bernese Mountain Dog'
 });
 
 // bien
-dog.set('attr',  {
-	age:  '1 year',
-	breed:  'Bernese Mountain Dog'
+dog.set('attr', {
+	age: '1 year',
+	breed: 'Bernese Mountain Dog'
 });
 ```
 
@@ -1260,12 +1252,12 @@ dog.set('attr',  {
 
 ```javascript
 // mal
-if(isJedi)  {
+if(isJedi){
 	fight  ();
 }
 
 // bien
-if  (isJedi)  {
+if (isJedi) {
 	fight();
 }
 ```
@@ -1274,53 +1266,50 @@ if  (isJedi)  {
 
 ```javascript
 // mal
-const  x:number=y+5;
+const x:number=y+5;
 
 // bien
-const  x:  number  = y +  5;
+const x: number = y + 5;
 ```
 
 - Usa indentación cuando uses métodos largos con 'chaining' (más de dos métodos encadenados). Emplea un punto adelante en cada nueva línea, lo que enfatiza que es un método llamado no una nueva sentencia.
 
 ```javascript
 // mal
-const  leds:  string[]  = stage.selectAll('.led').data(data).enter().append('svg:svg').class('led',  true)
-.attr('width',  (radius + margin)  *  2).append('svg:g')
-.attr('transform',  'translate('  +  (radius + margin)  +  ','  +  (radius + margin)  +  ')')
+const  leds: string[] = stage.selectAll('.led').data(data).enter().append('svg:svg').class('led', true)
+.attr('width', (radius + margin) * 2).append('svg:g')
+.attr('transform',  'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
 .call(tron.led);
 
 // bien
-const  leds:  string[]  = stage.selectAll('.led')
+const  leds: string[] = stage.selectAll('.led')
 	.data(data)
 	.enter().append('svg:svg')
-	.class('led',  true)
-	.attr('width',  (radius + margin)  *  2)
+	.class('led', true)
+	.attr('width', (radius + margin) * 2)
 	.append('svg:g')
-	.attr('transform',  'translate('  +  (radius + margin)  +  ','  +  (radius + margin)  +  ')')
+	.attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
 	.call(tron.led);
 ```
-
-  
 
 - Deja una línea en blanco luego de los bloques y antes de la siguiente sentencia.
  
 ```javascript
 // mal
-if  (foo)  {
+if (foo) {
 	return bar;
 }
 return baz;
 
-  
 // bien
-if  (foo)  {
+if (foo) {
 	return bar;
 }
 
 return baz;
  
 // bien
-const  obj  =  {
+const obj = {
 	foo() {
 	},
 
@@ -1342,14 +1331,14 @@ return obj;
 
 ```javascript
 // mal
-const  story  =  [
+const story = [
 	once
 	, upon
 	, aTime
 ];
 
 // bien
-const  story  =  [
+const story = [
 	once,
 	upon,
 	aTime,
@@ -1357,19 +1346,19 @@ const  story  =  [
 
 // mal
 
-const  hero  =  {
-	firstName:  'Ada'
-	, lastName:  'Lovelace'
-	, birthYear:  1815
-	, superPower:  'strength'
+const hero = {
+	firstName: 'Ada'
+	, lastName: 'Lovelace'
+	, birthYear: 1815
+	, superPower: 'strength'
 };
 
 // bien
-const  hero  =  {
-	firstName:  'Ada',
-	lastName:  'Lovelace',
-	birthYear:  1815,
-	superPower:  'computers',
+const hero = {
+	firstName: 'Ada',
+	lastName: 'Lovelace',
+	birthYear: 1815,
+	superPower: 'computers',
 };
 ```
 
@@ -1382,27 +1371,27 @@ const  hero  =  {
   
 ```javascript
 // mal
-const  creator:  CreatorInterface  =  {
+const creator: CreatorInterface = {
 	firstName:  'Florence',
-	lastName:  'Nightingale'
-	inventorOf: ['coxcomb chart',  'modern nursing']
+	lastName: 'Nightingale'
+	inventorOf: ['coxcomb chart', 'modern nursing']
 };
 
 // bien
-const  creator:  CreatorInterface  =  {
-	firstName:  'Florence',
-	lastName:  'Nightingale'
-	inventorOf: ['coxcomb chart',  'modern nursing'],
+const creator: CreatorInterface = {
+	firstName: 'Florence',
+	lastName: 'Nightingale'
+	inventorOf: ['coxcomb chart', 'modern nursing'],
 };
 
 //mal
-const  heroes:  HeroInterface  =  [
+const heroes: HeroInterface = [
 	'Batman',
 	'Superman'
 ];
 
 // bien
-const  heroes:  HeroInterface  =  [
+const heroes: HeroInterface = [
 	'Batman',
 	'Superman',
 ];
@@ -1420,12 +1409,12 @@ const  heroes:  HeroInterface  =  [
   
 ```javascript
 // mal
-const  saludar  =  ()  =>  {
+const saludar = () => {
 	return  'hola'
 }
 
 // bien
-const  saludar  =  ()  =>  {
+const saludar = () => {
 	return  'hola';
 };
 ```
@@ -1445,12 +1434,12 @@ const  saludar  =  ()  =>  {
  
 ```javascript
 // mal
-const  q  =  ()  =>  {
+const q = () => {
 	// ...algo...
 }
 
 // bien
-const  query  =  ()  =>  {
+const query = () => {
 	// ...algo...
 }
 ```
@@ -1460,13 +1449,13 @@ const  query  =  ()  =>  {
 
 ```javascript
 // mal
-const  OBJEcttsssss  =  {};
-const  this_is_my_object  =  {};
-const  o  =  {};
-function  c()  {}
+const OBJEcttsssss = {};
+const this_is_my_object = {};
+const o = {};
+function c() {}
 
 // bien
-var thisIsMyObject =  {};
+var thisIsMyObject = {};
 const thisIsMyFunction = () => {}
 ```
 
@@ -1474,25 +1463,23 @@ const thisIsMyFunction = () => {}
 
 ```javascript
 // mal
-class  user  {
-	constructor(options)  {
+class user {
+	constructor(options) {
 		this.name = options.name;
 	}
 }
 
-const  bad  =  new  user({
-	name:  'nope'
+const bad = new user({
+	name: 'nope'
 });
 
-  
 // bien
-class  User  {
-	constructor(options)  {
+class User {
+	constructor(options: User) {
 		this.name = options.name;
 	}
 }
-
-const  good  =  new  User({
+const good = new User({
 	name:  'yup',
 });
 ```
@@ -1505,12 +1492,12 @@ const  good  =  new  User({
 ```javascript
 
 // mal
-this.__firstName__ =  'Panda';
-this.firstName_ =  'Panda';
-this._firstName =  'Panda';
+this.__firstName__ = 'Panda';
+this.firstName_ = 'Panda';
+this._firstName = 'Panda';
 
 // bien
-this.firstName =  'Panda';
+this.firstName = 'Panda';
 ```
 
 - Nunca guardes referencias a `this`. Usa funciones arrow o la función [#bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
@@ -1520,7 +1507,7 @@ this.firstName =  'Panda';
 ```javascript
 // mal
 const funcion = () => {
-	const  self  =  this;
+	const self = this;
 
 	return () => {
 		console.log(self);
@@ -1529,7 +1516,7 @@ const funcion = () => {
 
 // bien
 const foo = () => {
-	return ()  =>  {
+	return ()  => {
 		console.log(this);
 	};
 }
@@ -1540,29 +1527,29 @@ const foo = () => {
 
 ```javascript
 // contenido archivo 1
-class  CheckBox  {
+class CheckBox {
 	// ...
 }
-export  default CheckBox;
+export default CheckBox;
 
 // contenido archivo 2
-export  default  function  fortyTwo()  {  return  42;  }
+export default function fortyTwo() { return  42; }
 
 // contenido archivo 3
-class  UsersController  {
+class UsersController {
 }
 
 // en algún otro archivo
 // mal
-import CheckBox from  './checkBox';  // importacion/exportacion PascalCase, nombre de archivo camelCase
-import FortyTwo from  './FortyTwo';  // importacion/nombre de archivo PascalCase, exportacion camelCase
-import controller from  './Users/controller';  // importacion/nombre de archivo PascalCase, exportacion camelCase
+import CheckBox from './checkBox'; // importacion/exportacion PascalCase, nombre de archivo camelCase
+import FortyTwo from './FortyTwo'; // importacion/nombre de archivo PascalCase, exportacion camelCase
+import controller from './Users/controller'; // importacion/nombre de archivo PascalCase, exportacion camelCase
 
 // bien
-import CheckBox from  './CheckBox';  // importacion/exportacion/nombre de archivo PascalCase
-import fortyTwo from  './fortyTwo';  // importacion/exportacion/nombre de archivo camelCase
+import CheckBox from './CheckBox'; // importacion/exportacion/nombre de archivo PascalCase
+import fortyTwo from './fortyTwo'; // importacion/exportacion/nombre de archivo camelCase
 // ^ soporta tanto insideDirectory.js e insideDirectory/index.js
-import UsersController from  './Users/controller';  //carpeta/archivo
+import UsersController from './Users/controller'; //carpeta/archivo
 ```
 
   
@@ -1570,7 +1557,7 @@ import UsersController from  './Users/controller';  //carpeta/archivo
 - Usa camelCase cuando exportes por defecto una función. Tu nombre de archivo debe ser idéntico al nombre de tu función.
 
 ```javascript
-function  makeStyleGuide()  {
+function makeStyleGuide() {
 }
 
 export  default makeStyleGuide;
@@ -1595,23 +1582,23 @@ export  default makeStyleGuide;
 ```javascript
 // Maintainable-JavaScript-Nicholas-C-Zakas
 // mal
-class  Dragon  {
-	get  age()  {
+class Dragon {
+	get age() {
 		// ...
 	}
 
-	set  age(value:  number)  {
+	set age(value: number) {
 		// ...
 	}
 }
 
 // bien
-class  Dragon  {
-	getAge()  {
+class Dragon {
+	getAge() {
 		// ...
 	}
 	 
-	setAge(value:  number)  {
+	setAge(value: number)  {
 		// ...
 	}
 }
@@ -1638,19 +1625,19 @@ if  (!dragon.hasAge())  {
 
  
 ```javascript
-class  Jedi  {
+class Jedi {
 
-	constructor(options  =  {})  {
-		const  lightsaber  = options.lightsaber ||  'blue';
+	constructor(options = {})  {
+		const lightsaber = options.lightsaber || 'blue';
 		this.set('lightsaber', lightsaber);
 	}
 
-	set(key:  string,  val:  string)  {
-		this[key]  = val;
+	set(key: string, val: string)  {
+		this[key] = val;
 	}
 
-	get(key:  string)  {
-		return  this[key];
+	get(key: string)  {
+		return this[key];
 	}
 }
 ```
@@ -1660,7 +1647,20 @@ class  Jedi  {
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
 
   
-  
+## Captura de errores
+
+- Siempre se debe encapsular todo el código dentro de una sentencia try catch.
+
+```javascript
+const functionName = () => {
+	try {
+		const getUsers = await this.getUsers();	
+	} catch ( error ) {
+		throw new Error('Mensaje');
+	}
+};
+```
+**[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
 
 ## Recursos
 
