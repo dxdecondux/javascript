@@ -1,6 +1,7 @@
+
 # Typescript Style Guide() {
 
-*Un enfoque altamente razonable para TypeScript*
+*Un enfoque altamente razonable para JavaScript*
 
 
 ## Tabla de Contenido
@@ -41,9 +42,9 @@
     + `null`
     + `undefined`
 
-    ```javascript
-    const foo = 1;
-    let bar = foo;
+    ```typescript
+    const foo : number = 1;
+    let bar : number = foo;
 
     bar = 9;
 
@@ -56,7 +57,7 @@
     + `function`
 
     ```javascript
-    const foo = [1, 2];
+    const foo : number = [1, 2];
     const bar = foo;
 
     bar[0] = 9;
@@ -71,49 +72,61 @@
   > ¿Por qué? Esto asegura que no reasignes tus referencias, lo
   que puede llevar a bugs y dificultad para comprender el código.
 
-  ```javascript
-  // mal
-  var a = 1;
-  var b = 2;
+```javascript
+// mal
+var a : number = 1;
+var b : number = 2;
 
-  // bien
-  const a = 1;
-  const b = 2;
-  ```
+// bien
+const a : number = 1;
+const b : number = 2;
+```
 
   - Si vas a reasignar referencias, usa `let` en vez de `var`.
   > ¿Por qué? El bloque `let` es de alcance a nivel de bloque a
   diferencia del alcance a nivel de función de `var`.
+	
+```javascript
+	// mal
+	var count  : number = 1;
+	if (true) {
+	  count += 1;
+	}
 
-  ```javascript
-  // mal
-  var count = 1;
-  if (true) {
-    count += 1;
-  }
-
-  // bien, usa el let
-  let count = 1;
-  if (true) {
-    count += 1;
-  }
-  ```
+	// bien, usa el let
+	let count  : number = 1;
+	if (true) {
+	  count += 1;
+	}
+```
 
   - Nota que tanto `let` como `const` tienen alcance a nivel de bloque.
-
+	
   ```javascript
-  // const y let solo existen en los bloques donde
-  // estan definidos
-  {
-    let a = 1;
-    const b = 1;
-  }
-  console.log(a); // ReferenceError
-  console.log(b); // ReferenceError
-  ```
+// const y let solo existen en los bloques donde
+// estan definidos
+{
+ let a : number = 1;
+ const b : number = 1;
+}
+console.log(a); // ReferenceError
+console.log(b); // ReferenceError
+ ```
 
 ## Objetos
 
+  - Para los objetos definir una interfaz que haga referencia a sus propiedades y tipos
+	 ```javascript
+	interface SupermanInterface {
+			defaults: {};
+			hidden:boolean;
+	}
+
+	const superman : SupermanInterface = {
+			defaults: { clark: 'kent' },
+			hidden: true,
+	};
+	 ```
   - Usa la sintaxis literal para la creación de un objeto.
 
     ```javascript
@@ -123,18 +136,17 @@
     // bien
     const item = {};
     ```
-
   - No uses [palabras reservadas](http://es5.github.io/#x7.6.1) para nombres de propiedades. No funciona en IE8 [Más información](https://github.com/airbnb/javascript/issues/61). No hay problema de usarlo en módulos de ES6 y en código de servidor.
 
     ```javascript
     // mal
-    const superman = {
+    const superman : SupermanInterface = {
       default: { clark: 'kent' },
       private: true
     };
 
     // bien
-    const superman = {
+    const superman : SupermanInterface = {
       defaults: { clark: 'kent' },
       hidden: true
     };
@@ -144,17 +156,17 @@
 
     ```javascript
     // mal
-    const superman = {
+    const superman  : SupermanInterface = {
       class: 'alien'
     };
 
     // mal
-    const superman = {
+    const superman  : SupermanInterface = {
       klass: 'alien'
     };
 
     // bien
-    const superman = {
+    const superman  : SupermanInterface = {
       type: 'alien'
     };
     ```
@@ -169,35 +181,35 @@
     const items = new Array();
 
     // bien
-    const items = [];
+	const items : string[] = [];
     ```
 
   - Usa Array#push, en vez de asignación directa, para agregar elementos a un arreglo.
 
     ```javascript
-    const someStack = [];
-
-    // mal
-    someStack[someStack.length] = 'abracadabra';
-
-    // bien
-    someStack.push('abracadabra');
+	const someStack : string[] = [];
+	// mal
+	someStack[someStack.length] = 'abracadabra';
+	// bien
+	someStack.push('abracadabra');
     ```
 
   - Usa [spread de arrays](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Operadores/Spread_operator) para copiar arreglos.
 
     ```javascript
-    const len = items.length;
-    const itemsCopy = [];
-    let i;
+	const items: number[] = [1, 2, 3, 4];
+	const len = items.length;
 
-    // mal
-    for (i = 0; i < len; i++) {
-      itemsCopy[i] = items[i];
-    }
+	const itemsCopy : number[] = [];
+
+	let i : number;
+	// mal
+	for (i = 0; i < len; i++) {
+	  itemsCopy[i] = items[i];
+	}
 
     // bien
-    const itemsCopy = [...items];
+	const itemsCopy : number[] = [...items];
     ```
 
   - Para convertir un objeto ["array-like" (similar a un arreglo)](https://www.inkling.com/read/javascript-definitive-guide-david-flanagan-6th/chapter-7/array-like-objects) a un arreglo, usa Array#from.
@@ -217,58 +229,37 @@
 
     ```javascript
     // mal
-    function getFullName(user) {
-      const firstName = user.firstName;
-      const lastName = user.lastName;
-
-      return `${firstName} ${lastName}`;
-    }
+    const getFullName = (user : string) => {
+	  const firstName = user.firstName;
+	  const lastName = user.lastName;
+	  return `${firstName} ${lastName}`;
+	 }
 
     // bien
-    function getFullName(user) {
-      const { firstName, lastName } = user;
-      return `${firstName} ${lastName}`;
-    }
+    const getFullName = ( user: UserInterface) => {
+	  const { firstName, lastName } = user;
+	  return `${firstName} ${lastName}`;
+    };
 
     // mejor
-    function getFullName({ firstName, lastName }) {
-      return `${firstName} ${lastName}`;
-    }
+    const getFullName = ({ firstName, lastName }: UserInterface) => `${firstName} ${lastName}`;
     ```
 
-  - Usa array destructuring.
+   - Usa array destructuring.
+
+	   ```javascript
+	    const arr : number[] = [1, 2, 3, 4];
+	    // mal
+		const first = arr[0];
+		const second = arr[1];
+
+	    // bien
+		const [first, second] = arr;    
+		```
+
+  - Usa object destructuring para múltiple valores de retorno de una función.
 
     ```javascript
-    const arr = [1, 2, 3, 4];
-
-    // mal
-    const first = arr[0];
-    const second = arr[1];
-
-    // bien
-    const [first, second] = arr;
-    ```
-
-  - Usa object destructuring para múltiple valores de retorno, no array destructuring.
-
-    > ¿Por qué? Puedes agregar nuevas propiedades en el tiempo o cambiar el orden de las cosas sin afectar la forma en que se llama.
-
-    ```javascript
-    // mal
-    function processInput(input) {
-      // then a miracle occurs
-      return [left, right, top, bottom];
-    }
-
-    // el que llama necesita pensar en el orden de la data de retorno
-    const [left, __, top] = processInput(input);
-
-    // bien
-    function processInput(input) {
-      // then a miracle occurs
-      return { left, right, top, bottom };
-    }
-
     // el que llama elige solo la data que necesita
     const { left, top } = processInput(input);
     ```
@@ -280,52 +271,48 @@
 
   - Usa comillas simples `''` para las cadenas de texto
 
-    ```javascript
-    // mal
-    const name = "Bob Parr";
+   ```javascript
+   // mal
+const name: string = "Bob Parr";
 
-    // bien
-    const name = 'Bob Parr';
-    ```
+   // bien
+const name: string = 'Bob Parr';
+   ```
 
   - Las cadenas de texto con una longitud mayor a 100 caracteres deben ser escritas en múltiples líneas usando concatenación.
 
   > **Nota:** Cuando se usa sin criterio, las cadenas de texto largas pueden impactar en el desempeño. [jsPerf](http://jsperf.com/ya-string-concat) & [Discusión](https://github.com/airbnb/javascript/issues/40)
 
-  ```javascript
-  // mal
-  var errorMessage = 'This is a super long error that was thrown because of Batman. When you stop to think about how Batman had anything to do with this, you would get nowhere fast.';
+```javascript
+// mal
+const errorMessage = 'This is a super long error that was thrown because'
++ 'of Batman. When you stop to think about how Batman had anything to do '
++ 'with this, you would get nowhere fast.';
 
-  // bien
-  var errorMessage = 'This is a super long error that was thrown because\
+// bien
+const errorMessage = 'This is a super long error that was thrown because\
   of Batman. When you stop to think about how Batman had anything to do \
   with this, you would get nowhere fast.';
 
-  // bien
-  var errorMessage = 'This is a super long error that was thrown because' +
+// bien
+const errorMessage = 'This is a super long error that was thrown because' +
     'of Batman. When you stop to think about how Batman had anything to do ' +
     'with this, you would get nowhere fast.';
-  ```
+```
 
   - Cuando se crean cadenas de texto de forma programática, usa template strings (cadena de plantillas) en vez de concatenación.
 
   > ¿Por qué? Los template strings te dan mayor legibilidad, sintaxis concisa con nuevas líneas apropiadas y capacidades de interpolación.
 
   ```javascript
-  // mal
-  function sayHi(name) {
-    return 'How are you, ' + name + '?';
-  }
+	// mal
+	const sayHi = (name: string) => 'How are you, ' + name + '?';
 
-  // mal
-  function sayHi(name) {
-    return ['How are you, ', name, '?'].join();
-  }
+	// mal
+	const sayHi = (name: string) => ['How are you, ', name, '?'].join();
 
-  // bien
-  function sayHi(name) {
-    return `How are you, ${name}?`;
-  }
+	// bien
+	const sayHi = (name: string) => `How are you, ${name}?`;
   ```
 
   - Nunca uses `eval()` en una cadena de texto, abre una caja de Pandora de vulnerabilidades.
@@ -335,55 +322,49 @@
 
 ## Funciones
 
-  - Usa declaración de función en vez de expresiones de función.
+  - Usa expresiones de función en vez de declaración de función haciendo uso de las funciones de flecha.
+	
+```javascript
+// mal
+function foo() {}
 
-  > ¿Por qué? Las declaraciones de función son nombradas, por lo que son más sencillas de identificar en las pilas de llamadas. Además todo el contenido de una declaración de función es *hoisted*, mientras que solo la referencia de una expresión de función es *hoisted*. Esta regla hace posible que siempre se usen [Arrow Functions](#notación-de-funciones-de-flecha) en vez de las funciones de expresión.
-
-  ```javascript
-   // mal
-   const foo = function () {
-   };
-
-   // bien
-   function foo() {
-   }
-   ```
+// bien
+const foo = () => {};
+```
 
   - Nunca declares una función en un bloque que no sea de función (if, while, etc). En vez de ello, asigna la función a una variable. Los navegadores te permitirán hacerlo pero todos ellos lo interpretarán de modo diferente, lo que es lamentable.
 
   > **Nota:** ECMA-262 define un bloque como una lista de sentencias. Una declaración de función no es una sentencia. [Lee la nota de ECMA-262 sobre este inconveniente](http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf#page=97).
 
-  ```javascript
-  // mal
-  if (currentUser) {
-    function test() {
-      console.log('Nope.');
-    }
-  }
+```javascript
+// mal
+if (currentUser) {
+	const test = () => {
+		console.log('Nope.');
+	}
+}
 
-  // bien
-  let test;
-  if (currentUser) {
-    test = () => {
-      console.log('Yup.');
-    };
-  }
-  ```
+// bien
+let test: Function;
+if (currentUser) {
+	test = () => {
+		console.log('Yup.');
+	};
+}
+```
 
-  - Nunca nombres a un parámetro como `arguments`, esto tendrá precedencia sobre el objeto `arguments` que es brindado en cada ámbito de función.
+- Nunca nombres a un parámetro como `arguments`, esto tendrá precedencia sobre el objeto `arguments` que es brindado en cada ámbito de función.
 
-    ```javascript
-    // mal
-    function nope(name, options, arguments) {
-      // ...algo...
-    }
-
-    // bien
-    function yup(name, options, args) {
-      // ...algo...
-    }
-    ```
-
+ ```javascript
+// mal
+const nope = (name :string, options: {}, arguments: {}) => {
+// ...algo...
+}
+// bien
+const yup = (name :string, options: {}, args: {}) => {
+// ...algo...
+}
+ ```
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
 
 ## Notación de Funciones de Flecha
@@ -402,71 +383,70 @@
     });
 
     // bien
-    [1, 2, 3].map((x) => {
-      const y = x + 1;
-      return x * y;
-    });
+	  [1, 2, 3].map((x: number) => {
+	  const y = x + 1;
+	  return x * y;
+	});
     ```
-
   - Si el cuerpo de la función consiste en una sola sentencia retornando una [expresión](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#Expressions) sin efectos colaterales, omite las llaves y usa el retorno implícito.
   De otro modo, mantén las llaves y usa una sentencia de retorno.
 
     > ¿Por qué? Un edulcorante sintáctico. Se lee bien cuando múltiples funciones están encadenadas entre sí.
+	
+	```javascript
+	// mal
+	[1, 2, 3].map((number: number) => {
+			const nextNumber: number = number + 1;
+			`A string containing the ${nextNumber}.`;
+	});
 
-    ```javascript
-    // mal
-    [1, 2, 3].map(number => {
-      const nextNumber = number + 1;
-      `A string containing the ${nextNumber}.`;
-    });
+	// bien
+	[1, 2, 3].map((number: number) => `A string containing the ${number}.`);
 
-    // bien
-    [1, 2, 3].map(number => `A string containing the ${number}.`);
+	// bien
+	[1, 2, 3].map((number: number) => {
+	const nextNumber: number = number + 1;
+		return `A string containing the ${nextNumber}.`;
+	});
 
-    // bien
-    [1, 2, 3].map((number) => {
-      const nextNumber = number + 1;
-      return `A string containing the ${nextNumber}.`;
-    });
+	// bien
+	[1, 2, 3].map((number: number, index: number) => ({
+		[index]: number,
+	}));
 
-    // bien
-    [1, 2, 3].map((number, index) => ({
-      [index]: number,
-    }));
+	// Sin efectos colaterales para retorno implícito
+	function foo(callback: Function) {
+		const val = callback();
+		if (val === true) {
+			// Do something if callback returns true
+		}
+	}
 
-    // Sin efectos colaterales para retorno implícito
-    function foo(callback) {
-      const val = callback();
-      if (val === true) {
-        // Do something if callback returns true
-      }
-    }
+	let bool = false;
 
-    let bool = false;
+	// mal
+	foo(() => bool = true);
 
-    // mal
-    foo(() => bool = true);
-
-    // bien
-    foo(() => {
-      bool = true;
-    });
-    ```
-
+	// bien
+	foo(() => {
+		bool = true;
+	});
+	console.log(bool);
+	```
   - En caso que la expresión se expanda en varias líneas, envuélvela en paréntesis para una mejor legibilidad.
 
     > ¿Por qué? Se observa claramente dónde empieza y termina la función.
 
     ```javascript
     // mal
-    ['get', 'post', 'put'].map(httpMethod => Object.prototype.hasOwnProperty.call(
+    ['get', 'post', 'put'].map((httpMethod: string) => Object.prototype.hasOwnProperty.call(
         httpMagicObjectWithAVeryLongName,
         httpMethod,
       )
     );
 
     // bien
-    ['get', 'post', 'put'].map(httpMethod => (
+    ['get', 'post', 'put'].map((httpMethod: string) => (
       Object.prototype.hasOwnProperty.call(
         httpMagicObjectWithAVeryLongName,
         httpMethod,
@@ -474,53 +454,38 @@
     ));
     ```
 
-  - Si tu función tiene un solo argumento y no usa llaves, omite los paréntesis. De otra forma, siempre incluye paréntesis alrededor de los argumentos por claridad y consistencia.
-  Nota: es también aceptable siempre usar paréntesis, en cuyo caso usa la [opción de "always"](https://eslint.org/docs/rules/arrow-parens#always) para eslint o no incluyas [`disallowParenthesesAroundArrowParam`](http://jscs.info/rule/disallowParenthesesAroundArrowParam) para jscs.
-
-    > ¿Por qué? Menos basura visual.
+  - Definir en las funciones el tipo de dato que se retorna en la función, de lo contrario espeficiar void como valor de retorno.
 
     ```javascript
-    // mal
-    [1, 2, 3].map((x) => x * x);
-
-    // bien
-    [1, 2, 3].map(x => x * x);
-
-    // bien
-    [1, 2, 3].map(number => (
-      `A long string with the ${number}. It’s so long that we don’t want it to take up space on the .map line!`
-    ));
-
-    // mal
-    [1, 2, 3].map(x => {
-      const y = x + 1;
-      return x * y;
-    });
-
-    // bien
-    [1, 2, 3].map((x) => {
-      const y = x + 1;
-      return x * y;
-    });
+	//Mal
+	const funcion = (name: string) => name;
+	
+	//Bien
+	const funcion = (name: string) :string => `Hola ${name}`;
+	
+	//Bien
+	const funcion = (name: string): void => {
+		console.log(`Hola ${name}`);
+	};
     ```
 
   - Evita confundir la sintaxis de función de flecha (`=>`) con los operadores de comparación (`<=`, `>=`).
 
     ```javascript
-    // mal
-    const itemHeight = item => item.height > 256 ? item.largeSize : item.smallSize;
+	// mal
+	const itemHeight = (item: ItemInterface) => item.height > 256 ? item.largeSize : item.smallSize;
 
-    // mal
-    const itemHeight = (item) => item.height > 256 ? item.largeSize : item.smallSize;
+	// mal
+	const itemHeight = (item: ItemInterface) => item.height > 256 ? item.largeSize : item.smallSize;
 
-    // bien
-    const itemHeight = item => (item.height > 256 ? item.largeSize : item.smallSize);
+	// bien
+	const itemHeight = (item: ItemInterface) => (item.height > 256 ? item.largeSize : item.smallSize);
 
-    // bien
-    const itemHeight = (item) => {
-      const { height, largeSize, smallSize } = item;
-      return height > 256 ? largeSize : smallSize;
-    };
+	// bien
+	const itemHeight = (item: ItemInterface) => {
+		const { height, largeSize, smallSize } = item;
+		return height > 256 ? largeSize : smallSize;
+	};
     ```
 
 **[⬆ regresar a la Tabla de Contenido](#tabla-de-contenido)**
@@ -532,27 +497,19 @@
     > ¿Por qué? La sintaxis `class` es más concisa y fácil con la cual lidiar.
 
     ```javascript
-    // mal
-    function Queue(contents = []) {
-      this._queue = [...contents];
-    }
-    Queue.prototype.pop = function () {
-      const value = this._queue[0];
-      this._queue.splice(0, 1);
-      return value;
-    }
+	class Queue {
+		queue: number[];
 
-    // bien
-    class Queue {
-      constructor(contents = []) {
-        this._queue = [...contents];
-      }
-      pop() {
-        const value = this._queue[0];
-        this._queue.splice(0, 1);
-        return value;
-      }
-    }
+		constructor(contents = []) {
+			this.queue = [...contents];
+		}
+
+		pop() {
+			const value = this.queue[0];
+			this.queue.splice(0, 1);
+			return value;
+		}
+	}
     ```
 
   - Métodos pueden retornar `this` para ayudar con el encadenamiento de métodos (*chaining*).
@@ -571,42 +528,48 @@
     const luke = new Jedi();
     luke.jump(); // => true
     luke.setHeight(20); // => undefined
+	
+	// bien
+	class Jedi {
+		jumping:boolean = false;
 
-    // bien
-    class Jedi {
-      jump() {
-        this.jumping = true;
-        return this;
-      }
+		height:number = 0;
 
-      setHeight(height) {
-        this.height = height;
-        return this;
-      }
-    }
+		jump() {
+			this.jumping = true;
+			return this;
+		}
 
-    const luke = new Jedi();
+		setHeight(height) {
+			this.height = height;
+			return this;
+		}
+	}
 
-    luke.jump()
-      .setHeight(20);
+	const luke = new Jedi();
+
+	luke.jump()
+		.setHeight(20);
     ```
 
   - Está bien escribir un método `toString()` personalizado, solo asegúrate que funcione correctamente y no cause efectos colaterales.
 
     ```javascript
-    class Jedi {
-      constructor(options = {}) {
-        this.name = options.name || 'no name';
-      }
+	 class Jedi {
+		name: string;
 
-      getName() {
-        return this.name;
-      }
+		constructor(options?: Jedi) {
+			this.name = options.name || 'no name';
+		}
 
-      toString() {
-        return `Jedi - ${this.getName()}`;
-      }
-    }
+		getName() {
+			return this.name;
+		}
+
+		toString() {
+			return `Jedi - ${this.getName()}`;
+		}
+	}
     ```
 
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
@@ -614,8 +577,6 @@
 ## Módulos
 
   - Siempre usa módulos (`import`/`export`) antes que un sistema de módulos no estándar. Siempre puedes transpilar a tu sistema de módulos preferido.
-
-    > ¿Por qué? Los módulos son el futuro, comencemos a usar el futuro en el presente.
 
     ```javascript
     // mal
@@ -684,11 +645,11 @@
 
     ```javascript
     // mal
-    let foo = 3;
+    let foo: number = 3;
     export { foo };
 
     // bien
-    const foo = 3;
+    const foo: number = 3;
     export { foo };
     ```
 
@@ -700,8 +661,9 @@
     // mal
     export function foo() {}
 
-    // bien
-    export default function foo() {}
+    // bien    
+	const foo = () => { };
+	export default foo;
     ```
 
   - Pon todos los `import`s encima de las sentencias de no importación.
@@ -740,20 +702,6 @@
     } from 'path';
     ```
 
-  - No permitas la sintaxis de carga de Webpack en las sentencias de importación de módulos.
-
-    > ¿Por qué? Debido a que usar la sintaxis de Webpack en los imports acopla el código a un ensamblador de módulos. Prefiere usar aquella sintaxis de carga en el archivo de `webpack.config.js`.
-
-    ```javascript
-    // mal
-    import fooSass from 'css!sass!foo.scss';
-    import barCss from 'style!css!bar.css';
-
-    // bien
-    import fooSass from 'foo.scss';
-    import barCss from 'bar.css';
-    ```
-
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
 
 
@@ -762,27 +710,27 @@
   - Usa la notación de punto `.` cuando accedas a las propiedades.
 
     ```javascript
-    const luke = {
+    const luke: Jedinterface = {
       jedi: true,
       age: 28
     };
 
     // mal
-    const isJedi = luke['jedi'];
+	const isJedi: boolean = luke['jedi'];
 
     // bien
-    const isJedi = luke.jedi;
+	const isJedi: boolean = luke.jedi;
     ```
 
   - Usa la notación subscript `[]` cuando accedas a las propiedades con una variable.
 
     ```javascript
-    const luke = {
+    const luke: Jedinterface = {
       jedi: true,
       age: 28
     };
 
-    function getProp(prop) {
+    function getProp(prop: string) {
       return luke[prop];
     }
 
@@ -793,20 +741,27 @@
 
 ## Variables
 
-  - Siempre usa `const` para declarar constantes o `let` para declarar variables. No hacerlo resultará en variables globales. Debemos evitar contaminar el espacio global (global namespace). El [Capitán Planeta](https://es.wikipedia.org/wiki/Capit%C3%A1n_Planeta_y_los_planetarios) nos advirtió de eso.
+  - Siempre usa `const` para declarar constantes o `let` para declarar variables. No hacerlo resultará en variables globales. Debemos evitar contaminar el espacio global (global namespace).
 
     ```javascript
     // mal
-    superPower = new SuperPower();
+    superPower:SuperPower = new SuperPower();
 
     // bien
-    const superPower = new SuperPower();
-
+    const superPower: SuperPower= new SuperPower();
     o
-
     // bien
-    let aPower;
-    aPower = new SuperPower(); // esto puede cambiar a otro poder posteriormente
+    let aPower: string;
+    aPower = "fly"; // esto puede cambiar a otro poder posteriormente
+    ```
+  - Siempre al declarar variables, definir el tipo de dato de la variable, para facilitar su comprensión y uso.
+
+      ```javascript
+    // mal
+    let superPower = 'fly';
+    o
+    // bien
+    let superPower:string = 'fly';
     ```
 
   - Usa una declaración `const` o `let` por variable.
@@ -815,177 +770,48 @@
 
     ```javascript
     // mal
-    const items = getItems(),
-        goSportsTeam = true,
-        dragonball = 'z';
+    const items: Items = getItems(),
+        goSportsTeam: boolean = true,
+        dragonball:string = 'z';
 
     // mal
     // (compara con lo de arriba y encuentra el error)
-    const items = getItems(),
-        goSportsTeam = true;
-        dragonball = 'z';
+    const items: Items  = getItems(),
+        goSportsTeam: boolean = true;
+        dragonball:string = 'z';
 
     // bien
-    const items = getItems();
-    const goSportsTeam = true;
-    const dragonball = 'z';
+    const items: Items  = getItems();
+    const goSportsTeam: boolean = true;
+    const dragonball:string = 'z';
     ```
 
   - Agrupa tus `const`s y luego agrupa tus `let`s.
     > ¿Por qué? Esto es útil cuando necesites asignar una variable luego dependiendo de una de las variables asignadas previamente.
 
-   ```javascript
-   // mal
-   let i, len, dragonball,
-       items = getItems(),
-       goSportsTeam = true;
+	```javascript
+	// mal
+	let i:number, len:number, dragonball:string,
+	    items:Items = getItems(),
+	    goSportsTeam:boolean = true;
 
-   // mal
-   let i;
-   const items = getItems();
-   let dragonball;
-   const goSportsTeam = true;
-   let len;
+	// mal
+	let i:number;
+	const items:Items = getItems();
+	let dragonball:string;
+	const goSportsTeam:boolean = true;
+	let len;
 
-   // bien
-   const goSportsTeam = true;
-   const items = getItems();
-   let dragonball;
-   let i;
-   let length;
-   ```
+	// bien
+	const goSportsTeam:boolean = true;
+	const items:Items = getItems();
+	let dragonball:string;
+	let i:number;
+	let length:number;
+	```
 
-  - Asigna las variables cuando las necesites, pero ponlas en un lugar razonable.
-    > ¿Por qué? `let` y `const` están a nivel de bloque, no a  nivel de función.
-
-   ```javascript
-   // mal - llamada a funcion innecesaria
-   function checkName(hasName) {
-     const name = getName();
-
-     if (hasName === 'test') {
-       return false;
-     }
-
-     if (name === 'test') {
-       this.setName('');
-       return false;
-     }
-
-     return name;
-   }
-
-   // bien
-   function checkName(hasName) {
-     if (hasName === 'test') {
-       return false;
-     }
-
-     const name = getName();
-
-     if (name === 'test') {
-       this.setName('');
-       return false;
-     }
-
-     return name;
-   }
-   ```
 
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
-
-
-## Hoisting
-
-  - Las declaraciones de variables son movidas a la parte superior de su ámbito, sin embargo su asignación no.
-
-    ```javascript
-    // sabemos que esto no funcionara (asumiendo
-    // que no hay una variable global notDefined)
-    function example() {
-      console.log(notDefined); // => lanza un ReferenceError
-    }
-
-    // crear una declaracion de variable luego
-    // que referencies a la variable funcionara
-    // por el hoisting. Nota: A la asignacion
-    // del valor `true` no se le aplico hoisting.
-    function example() {
-      console.log(declaredButNotAssigned); // => undefined
-      var declaredButNotAssigned = true;
-    }
-
-    // El interprete lleva la declaracion de la
-    // variable a la parte superior de la funcion.
-    // Eso significa que nuestro ejemplo
-    // podria ser reescrito como:
-    function example() {
-      var declaredButNotAssigned;
-      console.log(declaredButNotAssigned); // => undefined
-      declaredButNotAssigned = true;
-    }
-    ```
-
-  - Expresiones de función anónimas hacen hoisting de su nombre de variable, pero no de la asignación de la función.
-
-    ```javascript
-    function example() {
-      console.log(anonymous); // => undefined
-
-      anonymous(); // => TypeError anonymous is not a function
-
-      var anonymous = function() {
-        console.log('anonymous function expression');
-      };
-    }
-    ```
-
-  - Expresiones de función nombradas hacen hoisting de su nombre de variable, pero no del nombre de la función ni del contenido de la función.
-
-    ```javascript
-    function example() {
-      console.log(named); // => undefined
-
-      named(); // => TypeError named is not a function
-
-      superPower(); // => ReferenceError superPower is not defined
-
-      var named = function superPower() {
-        console.log('Flying');
-      };
-    }
-
-    // lo mismo es cierto cuando el nombre
-    // de la funcion es igual al nombre de
-    // la variable.
-    function example() {
-      console.log(named); // => undefined
-
-      named(); // => TypeError named is not a function
-
-      var named = function named() {
-        console.log('named');
-      }
-    }
-    ```
-
-  - Las declaraciones de función hacen hoist de su nombre y del contenido de la función.
-
-    ```javascript
-    function example() {
-      superPower(); // => Flying
-
-      function superPower() {
-        console.log('Flying');
-      }
-    }
-    ```
-
-  - Para más información lee [JavaScript Scoping & Hoisting](http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting) por [Ben Cherry](http://www.adequatelygood.com/)
-
-**[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
-
-
 
 ## Expresiones de comparación e igualdad
 
@@ -1040,7 +866,6 @@
     `case` donde es declarado es alcanzado. Esto causa problemas cuando
     múltiples bloques `case` intentan definir la misma variable.
 
-
     ```javascript
     // mal
     switch (foo) {
@@ -1054,28 +879,25 @@
         function f() {}
         break;
       default:
-        class C {}
+          bar();
     }
 
     // bien
     switch (foo) {
       case 1: {
-        let x = 1;
+        let x:number = 1;
         break;
       }
       case 2: {
-        const y = 2;
+        const y:number = 2;
         break;
       }
       case 3: {
-        function f() {}
+        const f = () => {}
         break;
       }
-      case 4:
-        bar();
-        break;
       default: {
-        class C {}
+        class C {}   bar();
       }
     }
     ```
@@ -1109,7 +931,7 @@
     }
     ```
 
-  - Si estás usando bloques de muchas líneas con ```if``` y ```else```, pon el ```else``` en la misma línea que el ```if```.
+  - Si estás usando bloques con ```if``` y ```else```, pon el ```else``` en la misma línea que el ```if```.
 
     ```javascript
     // mal
@@ -1138,28 +960,14 @@
   - Usa `/** ... */` para comentarios de múltiples líneas. Incluye una descripción, especificación de tipos y valores para todos los parámetros y valores de retorno.
 
     ```javascript
-    // mal
-    // make() returns a new element
-    // based on the passed in tag name
-    //
-    // @param {String} tag
-    // @return {Element} element
-    function make(tag) {
-
-      // ...stuff...
-
-      return element;
-    }
-
-    // bien
-    /**
+      /**
      * make() returns a new element
      * based on the passed in tag name
      *
      * @param {String} tag
      * @return {Element} element
      */
-    function make(tag) {
+    const make = (tag:string) : Element{
 
       // ...stuff...
 
@@ -1171,17 +979,17 @@
 
     ```javascript
     // mal
-    const active = true;  // is current tab
+    const active: boolean = true;  // is current tab
 
     // bien
     // is current tab
-    const active = true;
+    const active: boolean = true;
 
     // mal
     function getType() {
       console.log('fetching type...');
       // set the default type to 'no type'
-      const type = this._type || 'no type';
+      const type:string = 'no type';
 
       return type;
     }
@@ -1191,7 +999,7 @@
       console.log('fetching type...');
 
       // set the default type to 'no type'
-      const type = this._type || 'no type';
+      const type:string = 'no type';
 
       return type;
     }
@@ -1207,7 +1015,7 @@
         super();
 
         // FIXME: shouldn't use a global here
-        total = 0;
+        total:number = 0;
       }
     }
     ```
@@ -1215,7 +1023,7 @@
   - Usa `// TODO:` para anotar soluciones a los problemas.
 
     ```javascript
-    class Calculator extends Abacus {
+    class Calculator extends Abacus {	  
       constructor() {
         super();
 
@@ -1228,39 +1036,29 @@
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
 
 
-## Espacios en blanco
+## Indentación y espacios en blanco
 
-  - Usa indentaciones blandas (sin TAB)  establecidas en dos espacios.
+  - Usa indentaciones con dos tabs.
 
     ```javascript
     // mal
-    function foo() {
-    ∙∙∙∙const name;
+    const foo = () : void => {
+    ∙∙const name;
     }
 
     // mal
-    function bar() {
-    ∙const name;
+    function bar() : void{
+    ∙∙∙∙const name;
     }
 
     // bien
-    function baz() {
-    ∙∙const name;
+    const  baz = () : void => {
+    \t\tconst name;
     }
     ```
   - Deja un espacio antes de la llave de apertura.
 
     ```javascript
-    // mal
-    function test(){
-      console.log('test');
-    }
-
-    // bien
-    function test() {
-      console.log('test');
-    }
-
     // mal
     dog.set('attr',{
       age: '1 year',
@@ -1285,90 +1083,35 @@
     if (isJedi) {
       fight();
     }
-
-    // mal
-    function fight () {
-      console.log ('Swooosh!');
-    }
-
-    // bien
-    function fight() {
-      console.log('Swooosh!');
-    }
     ```
 
   - Separa a los operadores con espacios.
     ```javascript
     // mal
-    const x=y+5;
+	const x:number=y+5;
 
     // bien
-    const x = y + 5;
-    ```
-
-  - Deja una línea en blanco al final del archivo.
-
-    ```javascript
-    // mal
-    (function(global) {
-      // ...algo...
-    })(this);
-    ```
-
-    ```javascript
-    // mal
-    (function(global) {
-      // ...algo...
-    })(this);↵
-    ↵
-
-    ```
-
-    ```javascript
-    // bien
-    (function(global) {
-      // ...algo...
-    })(this);↵
-
-    ```
+	const x: number = y + 5;    
+	```
 
   - Usa indentación cuando uses métodos largos con 'chaining' (más de dos métodos encadenados). Emplea un punto adelante en cada nueva línea, lo que enfatiza que es un método llamado no una nueva sentencia.
 
     ```javascript
-    // mal
-    $('#items').find('.selected').highlight().end().find('.open').updateCount();
+	// mal
+	const leds: string[] = stage.selectAll('.led').data(data).enter().append('svg:svg').class('led', true)
+		.attr('width', (radius + margin) * 2).append('svg:g')
+		.attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
+		.call(tron.led);
 
-    // mal
-    $('#items').
-      find('.selected').
-        highlight().
-        end().
-      find('.open').
-        updateCount();
-
-    // bien
-    $('#items')
-      .find('.selected')
-        .highlight()
-        .end()
-      .find('.open')
-        .updateCount();
-
-    // mal
-    const leds = stage.selectAll('.led').data(data).enter().append('svg:svg').class('led', true)
-        .attr('width',  (radius + margin) * 2).append('svg:g')
-        .attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
-        .call(tron.led);
-
-    // bien
-    const leds = stage.selectAll('.led')
-        .data(data)
-      .enter().append('svg:svg')
-        .class('led', true)
-        .attr('width',  (radius + margin) * 2)
-      .append('svg:g')
-        .attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
-        .call(tron.led);
+	// bien
+	const leds: string[] = stage.selectAll('.led')
+		.data(data)
+		.enter().append('svg:svg')
+		.class('led', true)
+		.attr('width', (radius + margin) * 2)
+		.append('svg:g')
+		.attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
+		.call(tron.led);
     ```
 
   - Deja una línea en blanco luego de los bloques y antes de la siguiente sentencia.
@@ -1387,40 +1130,20 @@
 
     return baz;
 
-    // mal
+    // bien
     const obj = {
       foo() {
       },
       bar() {
       }
     };
-    return obj;
-
-    // bien
-    const obj = {
-      foo() {
-      },
-
-      bar() {
-      }
-    };
 
     return obj;
-
-    // mal
-    const arr = [
-      function foo() {
-      },
-      function bar() {
-      },
-    ];
-    return arr;
 
     // bien
     const arr = [
       function foo() {
       },
-
       function bar() {
       },
     ];
@@ -1432,289 +1155,182 @@
 
 ## Comas
 
-  - Comas al inicio de línea: **Nop.**
+  - No se deben utilizar Comas al inicio de línea:
 
-    ```javascript
-    // mal
-    const story = [
-        once
-      , upon
-      , aTime
-    ];
+   ```javascript
+   // mal
+   const story = [
+       once
+     , upon
+     , aTime
+   ];
 
-    // bien
-    const story = [
-      once,
-      upon,
-      aTime,
-    ];
+   // bien
+   const story = [
+     once,
+     upon,
+     aTime,
+   ];
 
-    // mal
-    const hero = {
-        firstName: 'Ada'
-      , lastName: 'Lovelace'
-      , birthYear: 1815
-      , superPower: 'strength'
-    };
+   // mal
+   const hero = {
+       firstName: 'Ada'
+     , lastName: 'Lovelace'
+     , birthYear: 1815
+     , superPower: 'strength'
+   };
 
-    // bien
-    const hero = {
-      firstName: 'Ada',
-      lastName: 'Lovelace',
-      birthYear: 1815,
-      superPower: 'computers',
-    };
-    ```
+   // bien
+   const hero = {
+     firstName: 'Ada',
+     lastName: 'Lovelace',
+     birthYear: 1815,
+     superPower: 'computers',
+   };
+   ```
 
   - Coma adicional al final: **Sip.**
   > ¿Por qué? Esto lleva a diferenciales en git más claros. Además los transpiladores como Babel removerán la coma del final en el código transpilado lo que significa que no te tendrás que preocupar del [problema de la coma adicional al final](es5/README.md#commas) en navegadores antiguos.
 
-  ```javascript
-  // mal - git diff sin coma adicional al final
-  const hero = {
-       firstName: 'Florence',
-  -    lastName: 'Nightingale'
-  +    lastName: 'Nightingale',
-  +    inventorOf: ['coxcomb chart', 'modern nursing']
-  };
+```javascript
+// mal
+const creator: CreatorInterface = {
+	firstName: 'Florence',
+	lastName: 'Nightingale'
+	inventorOf: ['coxcomb chart', 'modern nursing']
+};
 
-  // bien - git diff con coma adicional al final
-  const hero = {
-       firstName: 'Florence',
-       lastName: 'Nightingale',
-  +    inventorOf: ['coxcomb chart', 'modern nursing'],
-  };
+// bien
+const creator: CreatorInterface = {
+	firstName: 'Florence',
+	lastName: 'Nightingale'
+	inventorOf: ['coxcomb chart', 'modern nursing'],
+};
 
-  // mal
-  const hero = {
-    firstName: 'Dana',
-    lastName: 'Scully'
-  };
+//mal
+const heroes: HeroInterface = [
+  'Batman',
+  'Superman'
+];
 
-  const heroes = [
-    'Batman',
-    'Superman'
-  ];
-
-  // bien
-  const hero = {
-    firstName: 'Dana',
-    lastName: 'Scully',
-  };
-
-  const heroes = [
-    'Batman',
-    'Superman',
-  ];
-  ```
+// bien
+const heroes: HeroInterface = [
+  'Batman',
+  'Superman',
+];
+```
 
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
 
 
 ## Puntos y Comas
 
-  - **Sip.**
+  - Se debe usar siempre punto y coma para finalizar un bloque.
 
     ```javascript
-    // mal
-    (function () {
-      const name = 'Skywalker'
-      return name
-    })()
+	   // mal
+   	   const saludar = () => {
+		   	return 'hola'
+	   }
 
-    // bien
-    (() => {
-      const name = 'Skywalker';
-      return name;
-    }());
-
-    // bien, pero arcaico (evita que la funcion se vuelva un argumento
-    // cuando dos archivos con IIFEs sean concatenados)
-    ;(() => {
-      const name = 'Skywalker';
-      return name;
-    }());
+	   // bien
+	   const saludar = () => {
+	    	return 'hola';
+	   };
     ```
 
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
-
-
-## Casting de Tipos y Coerción
-
-  - Ejecuta coerción al inicio de una sentencia.
-  - Strings:
-
-    ```javascript
-    //  => this.reviewScore = 9;
-
-    // mal
-    const totalScore = this.reviewScore + ''; // invoca a this.reviewScore.valueOf()
-
-    // mal
-    const totalScore = this.reviewScore.toString(); // no se garantiza que retorne una cadena de texto
-
-    // bien
-    const totalScore = String(this.reviewScore);
-    ```
-
-  - Números: Usa `Number` para el casting de tipo y `parseInt` siempre con la base numérica para el casting de textos.
-
-    ```javascript
-    const inputValue = '4';
-
-    // mal
-    const val = new Number(inputValue);
-
-    // mal
-    const val = +inputValue;
-
-    // mal
-    const val = inputValue >> 0;
-
-    // mal
-    const val = parseInt(inputValue);
-
-    // bien
-    const val = Number(inputValue);
-
-    // bien
-    const val = parseInt(inputValue, 10);
-    ```
-
-  - Si por alguna razón estás haciendo algo salvaje y `parseInt` es un cuello de botella por lo que necesitaste usar Bitshift por [razones de desempeño](http://jsperf.com/coercion-vs-casting/3), deja un comentario explicando la razón y resumen de lo que estás haciendo.
-
-    ```javascript
-    // bien
-    /**
-     * parseInt was the reason my code was slow.
-     * Bitshifting the String to coerce it to a
-     * Number made it a lot faster.
-     */
-    const val = inputValue >> 0;
-    ```
-
-  > **Nota:** Ten mucho cuidado al hacer operaciones de Bitshift. En Javascript los números son representados como [valores de 64-bit](http://es5.github.io/#x4.3.19), sin embargo las operaciones de Bitshift siempre retornan un entero de 32-bits ([fuente](http://es5.github.io/#x11.7)). Bitshift puede presentarnos un comportamiento inesperado para valores enteros mayores a 32 bits. [Discusión](https://github.com/airbnb/javascript/issues/109). El mayor entero con signo de 32 bits es 2,147,483,647:
-  ```javascript
-  2147483647 >> 0 //=> 2147483647
-  2147483648 >> 0 //=> -2147483648
-  2147483649 >> 0 //=> -2147483647
-  ```
-
-  - Booleans:
-
-    ```javascript
-    const age = 0;
-
-    // mal
-    const hasAge = new Boolean(age);
-
-    // bien
-    const hasAge = Boolean(age);
-
-    // bien
-    const hasAge = !!age;
-    ```
-
-**[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
-
 
 ## Convenciones de nomenclatura
 
-  - Evita nombres de una sola letra. Sé descriptivo con tus nombres.
+  - Evita nombres de una sola letra y abreviaciones. Sé descriptivo con tus nombres.
 
-    ```javascript
-    // mal
-    function q() {
-      // ...algo...
-    }
+   ```javascript
+   // mal
+   const q = () => {
+     // ...algo...
+   }
 
-    // bien
-    function query() {
-      // ...algo...
-    }
-    ```
+   // bien
+   const query = () => {
+     // ...algo...
+   }
+   ```
 
   - Usa camelCase cuando nombres tus objetos, funciones e instancias.
 
-    ```javascript
-    // mal
-    const OBJEcttsssss = {};
-    const this_is_my_object = {};
-    const o = {};
-    function c() {}
+   ```javascript
+   // mal
+   const OBJEcttsssss = {};
+   const this_is_my_object = {};
+   const o = {};
+   function c() {}
 
-    // bien
-    var thisIsMyObject = {};
-    function thisIsMyFunction() {}
-    ```
+   // bien
+   var thisIsMyObject = {};
+   function thisIsMyFunction() {}
+   ```
 
   - Usa PascalCase cuando nombres constructores o clases.
 
-    ```javascript
-    // mal
-    function user(options) {
-      this.name = options.name;
-    }
+   ```javascript
+   // mal
+   class user {
+     constructor(options) {
+       this.name = options.name;
+     }
+   }
 
-    const bad = new user({
-      name: 'nope'
-    });
+   const bad = new user({
+     name: 'nope'
+   });
 
-    // bien
-    class User {
-      constructor(options) {
-        this.name = options.name;
-      }
-    }
+   // bien
+   class User {
+     constructor(options) {
+       this.name = options.name;
+     }
+   }
 
-    const good = new User({
-      name: 'yup',
-    });
-    ```
+   const good = new User({
+     name: 'yup',
+   });
+   ```
 
   - No uses prefijos ni sufijos de guiones bajo.
   > ¿Por qué? JavaScript no tiene el concepto de privacidad en términos de propiedades o métodos. A pesar que un guión bajo como prefijo es una convención común para indicar que son "privados", la realidad es que estas propiedades son absolutamente públicas, y por ello, parte de tu contrato público de API. La convención del prefijo de guión bajo podría orientar a los desarrolladores a pensar erróneamente que un cambio a aquellos no será de impacto o que los tests no son necesarios.
 
-  ```javascript
-  // mal
-  this.__firstName__ = 'Panda';
-  this.firstName_ = 'Panda';
-  this._firstName = 'Panda';
+```javascript
+// mal
+this.__firstName__ = 'Panda';
+this.firstName_ = 'Panda';
+this._firstName = 'Panda';
+// bien
+this.firstName = 'Panda';
+```
 
-
-  // bien
-  this.firstName = 'Panda';
-  ```
 
   - Nunca guardes referencias a `this`. Usa funciones arrow o la función [#bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
 
-    ```javascript
-    // mal
-    function() {
-      const self = this;
-      return function() {
-        console.log(self);
-      };
-    }
+   ```javascript
+   // mal
+   function() {
+     const self = this;
+     return function() {
+       console.log(self);
+     };
+   }
 
-    // mal
-    function() {
-      const that = this;
-      return function() {
-        console.log(that);
-      };
-    }
+   // bien
+   function foo() {
+     return () => {
+       console.log(this);
+     };
+   }
+   ```
 
-    // bien
-    function foo() {
-      return () => {
-        console.log(this);
-      };
-    }
-    ```
-
-  - El nombre del archivo base debe corresponder exactamente con el nombre de su export por defecto.
-
+  - El nombre del archivo base debe corresponder exactamente con el nombre de su export por defecto, o en su defecto, se le debe añadir el nombre de la carpeta y la convención del archivo con PascalCase.
+	
   ```javascript
    // contenido archivo 1
    class CheckBox {
@@ -1724,48 +1340,32 @@
 
    // contenido archivo 2
    export default function fortyTwo() { return 42; }
-
+   
    // contenido archivo 3
-   export default function insideDirectory() {}
+   class UsersController {
+   }
 
    // en algún otro archivo
    // mal
    import CheckBox from './checkBox'; // importacion/exportacion PascalCase, nombre de archivo camelCase
    import FortyTwo from './FortyTwo'; // importacion/nombre de archivo PascalCase, exportacion camelCase
-   import InsideDirectory from './InsideDirectory'; // importacion/nombre de archivo PascalCase, exportacion camelCase
-
-   // mal
-   import CheckBox from './check_box'; // importacion/exportacion PascalCase, nombre de archivo snake_case
-   import forty_two from './forty_two'; // importacion/nombre de archivo snake_case, exportacion camelCase
-   import inside_directory from './inside_directory'; // importacion snake_case, exportacion camelCase
-   import index from './inside_directory/index'; // requiere el archivo de index explicitamente
-   import insideDirectory from './insideDirectory/index'; // requiere el archivo de index explicitamente
+   import controller from './Users/controller'; // importacion/nombre de archivo PascalCase, exportacion camelCase
 
    // bien
    import CheckBox from './CheckBox'; // importacion/exportacion/nombre de archivo PascalCase
    import fortyTwo from './fortyTwo'; // importacion/exportacion/nombre de archivo camelCase
-   import insideDirectory from './insideDirectory'; // importacion/exportacion/nombre directorio/archivo "index" implícito
    // ^ soporta tanto insideDirectory.js e insideDirectory/index.js
+   import UsersController from './Users/controller'; //carpeta/archivo
 
    ```
 
   - Usa camelCase cuando exportes por defecto una función. Tu nombre de archivo debe ser idéntico al nombre de tu función.
-
+	
   ```javascript
   function makeStyleGuide() {
   }
 
   export default makeStyleGuide;
-  ```
-
-  - Usa camelCase cuando exportes un objeto constructor / clase / singleton / librería de función / esqueleto.
-  ```javascript
-  const AirbnbStyleGuide = {
-    es6: {
-    }
-  };
-
-  export default AirbnbStyleGuide;
   ```
 
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
@@ -1783,7 +1383,7 @@
          // ...
        }
 
-       set age(value) {
+       set age(value: number) {
          // ...
        }
      }
@@ -1794,7 +1394,7 @@
          // ...
        }
 
-       setAge(value) {
+       setAge(value: number) {
          // ...
        }
      }
@@ -1823,11 +1423,11 @@
         this.set('lightsaber', lightsaber);
       }
 
-      set(key, val) {
+      set(key: string, val: string) {
         this[key] = val;
       }
 
-      get(key) {
+      get(key: string) {
         return this[key];
       }
     }
@@ -1836,75 +1436,21 @@
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
 
 
-## Pruebas
-
-  - **Sip**.
-
-    ```javascript
-    function foo() {
-      return true;
-    }
-    ```
-
-  - **No, but seriously**:
-   - Cualquiera que sea el framework de testing que emplees, ¡deberías escribir tests!
-   - Esfuérzate por escribir funciones pequeñas y puras, además de minimizar las posibles mutaciones que pudiesen ocurrir.
-   - Sé cuidados con los stubs y los mocks - pueden hacer tus tests más frágiles.
-   - Usamos principalmente [`mocha`](https://www.npmjs.com/package/mocha) en Airbnb. [`tape`](https://www.npmjs.com/package/tape) es también usado ocasionalmente para módulos pequeños y separados.
-   - 100% de cobertura de pruebas es una buena meta a perseguir, a pesar que no es siempre práctico conseguirlo.
-   - Cuando corrijas una incidencia (bug), _escribe una prueba de regresión_. Una incidencia sin una prueba de regresión es casi seguro que volverá a ocurrir en el futuro.
-
-**[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
-
-
-
 ## Recursos
 
 **Learning ES6**
 
-  - [Draft ECMA 2015 (ES6) Spec](https://people.mozilla.org/~jorendorff/es6-draft.html)
-  - [ExploringJS](http://exploringjs.com/)
-  - [Tabla de compatibilidad de ES6](https://kangax.github.io/compat-table/es6/)
   - [Vistazo comprensivo de las nuevas características de ES6](http://es6-features.org/)
-
-**Lee esto**
-
-  - [Standard ECMA-262](http://www.ecma-international.org/ecma-262/6.0/index.html)
 
 **Lecturas más profundas**
 
-  - [Understanding JavaScript Closures](http://javascriptweblog.wordpress.com/2010/10/25/understanding-javascript-closures/) - Angus Croll (Entendiendo los Closures de JavaScript)
-  - [Basic JavaScript for the impatient programmer](http://www.2ality.com/2013/06/basic-javascript.html) - Dr. Axel Rauschmayer (JavaScript Básico para el programador impaciente)
-  - [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - Zack Bloom & Adam Schwartz (Podrías no necesitar jQuery)
   - [ES6 Features](https://github.com/lukehoban/es6features) - Luke Hoban (Características de ES6)
-  - [Frontend Guidelines](https://github.com/bendc/frontend-guidelines) - Benjamin De Cock (Lineamientos para el Frontend)
-
-**Libros**
-
-  - [JavaScript: The Good Parts](http://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742) - Douglas Crockford (JavaScript: Las Buenas Partes)
-  - [JavaScript Patterns](http://www.amazon.com/JavaScript-Patterns-Stoyan-Stefanov/dp/0596806752) - Stoyan Stefanov (Patrones JavaScript)
-  - [Pro JavaScript Design Patterns](http://www.amazon.com/JavaScript-Design-Patterns-Recipes-Problem-Solution/dp/159059908X)  - Ross Harmes and Dustin Diaz (Patrones de Diseño Avanzados en Javascript)
-  - [High Performance Web Sites: Essential Knowledge for Front-End Engineers](http://www.amazon.com/High-Performance-Web-Sites-Essential/dp/0596529309) - Steve Souders (Sitios Web de Alto Desempeño: Conocimiento Esencial para los Ingenieros de Capa de Presentación)
-  - [Maintainable JavaScript](http://www.amazon.com/Maintainable-JavaScript-Nicholas-C-Zakas/dp/1449327680) - Nicholas C. Zakas (JavaScript Mantenible)
-  - [JavaScript Web Applications](http://www.amazon.com/JavaScript-Web-Applications-Alex-MacCaw/dp/144930351X) - Alex MacCaw (Aplicaciones Web JavaScript)
-  - [Pro JavaScript Techniques](http://www.amazon.com/Pro-JavaScript-Techniques-John-Resig/dp/1590597273) - John Resig (Técnicas Avanzadas JavaScript)
-  - [Smashing Node.js: JavaScript Everywhere](http://www.amazon.com/Smashing-Node-js-JavaScript-Everywhere-Magazine/dp/1119962595) - Guillermo Rauch (Increíble Node.js: JavaScript en todas partes)
-  - [Secrets of the JavaScript Ninja](http://www.amazon.com/Secrets-JavaScript-Ninja-John-Resig/dp/193398869X) - John Resig and Bear Bibeault (Secretos del JavaScript Ninja)
-  - [Human JavaScript](http://humanjavascript.com/) - Henrik Joreteg (JavaScript Humano)
-  - [Superhero.js](http://superherojs.com/) - Kim Joar Bekkelund, Mads Mobæk, & Olav Bjorkoy (Superhéroe.js)
-  - [JSBooks](http://jsbooks.revolunet.com/) - Julien Bouquillon
-  - [Third Party JavaScript](http://manning.com/vinegar/) - Ben Vinegar and Anton Kovalyov (JavaScript de Terceros)
-  - [Effective JavaScript: 68 Specific Ways to Harness the Power of JavaScript](http://amzn.com/0321812182) - David Herman (JavaScript Efectivo: 68 modos específicos para elevar el poder de JavaScript)
-  - [Eloquent JavaScript](http://eloquentjavascript.net/) - Marijn Haverbeke (JavaScript Elocuente)
-  - [You Don't Know JS: ES6 & Beyond](http://shop.oreilly.com/product/0636920033769.do) - Kyle Simpson (No sabes JS: ES6 y más allá)
-
-
 
 ## Licencia
 
 (The MIT License)
 
-Copyright (c) 2014-2016 Airbnb
+Copyright (c) 2020 Decondux
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
