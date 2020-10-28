@@ -55,10 +55,10 @@
 
   
 ```typescript
-const  foo  :  number  =  1;
-let bar :  number  = foo;
-bar =  9;
-console.log(foo, bar);  // => 1, 9
+const foo = 1;
+let bar: number = foo;
+bar = 9;
+console.log( foo, bar ); // => 1, 9
 ```
 
 -  **Complejo**: Cuando accedes a un tipo complejo, manejas la referencia a su valor.
@@ -73,10 +73,10 @@ console.log(foo, bar);  // => 1, 9
   
 
 ```javascript
-const  foo  :  number  =  [1,  2];
-const  bar  = foo;
-bar[0]  =  9;
-console.log(foo[0], bar[0]);  // => 9, 9
+const foo: number[] = [1, 2];
+const bar = foo;
+bar[0] = 9;
+console.log( foo[0], bar[0] ); // => 9, 9
 ```
 
   
@@ -96,12 +96,12 @@ que puede llevar a bugs y dificultad para comprender el código.
 
 ```javascript
 // mal
-var a : number = 1;
-var b : number = 2;
+var a = 1;
+var b = 2;
  
 // bien
-const a: number = 1;
-const b: number = 2;
+const a = 1;
+const b = 2;
 ```
 
   
@@ -114,15 +114,15 @@ diferencia del alcance a nivel de función de `var`.
 
 ```javascript
 // mal
-var count: number = 1;
-if  (true)  {
-	count +=  1;
+var count = 1;
+if ( true ) {
+	count += 1;
 }
 
 // bien, usa el let
-let count: number = 1;
-if (true) {
-	count +=  1;
+let count = 1;
+if ( true ) {
+	count += 1;
 }
 ```
 
@@ -132,8 +132,8 @@ if (true) {
 // const y let solo existen en los bloques donde
 // estan definidos
 {
-	let a : number = 1;
-	const b : number = 1;
+	let a = 1;
+	const b = 1;
 }
 console.log(a); // ReferenceError
 console.log(b); // ReferenceError
@@ -150,8 +150,8 @@ console.log(b); // ReferenceError
 ```javascript
 interface SupermanInterface {
 	defaults: {};
-	hidden:boolean;
-}
+	hidden: boolean;
+};
 
 const superman: SupermanInterface = {
 	defaults: { clark: 'kent' },
@@ -165,7 +165,7 @@ const superman: SupermanInterface = {
 // mal
 const item = new Object();
 // bien
-const item: Object = {};
+const item = {};
 ```
 
 - No uses [palabras reservadas](http://es5.github.io/#x7.6.1) para nombres de propiedades. No funciona en IE8 [Más información](https://github.com/airbnb/javascript/issues/61). No hay problema de usarlo en módulos de ES6 y en código de servidor.
@@ -181,8 +181,8 @@ const superman: SupermanInterface = {
 
 // bien
 const superman: SupermanInterface = {
-	defaults:  { clark:  'kent'  },
-	hidden:  true
+	defaults: { clark: 'kent' },
+	hidden: true,
 };
 ```
 
@@ -192,17 +192,17 @@ const superman: SupermanInterface = {
 ```javascript
 // mal
 const superman: SupermanInterface = {
-	class: 'alien'
+	class: 'alien',
 };
 
 // mal
 const superman: SupermanInterface = {
-	klass:  'alien'
+	klass: 'alien',
 };
 
 // bien
 const superman: SupermanInterface = {
-	type:  'alien'
+	type: 'alien',
 };
 ```
 
@@ -227,16 +227,16 @@ const items: string[] = [];
 - Al declarar matrices, se debe agregar un espacio al final después de cada delimitador de coma para mejorar la legibilidad.
 ```javascript
 // mal
-objetos = [1,2,3,4];
+const objetos = [1,2,3,4];
 
 // bien
-objetos = [1, 2, 3, 4];
+const objetos = [1, 2, 3, 4];
 ```
 - Al declarar una matriz indexada de varias líneas, el elemento de la matriz inicial debe comenzar en la siguiente línea. Si es así, debe manejar 2 tabs de espacio adicionales a la línea que contiene la declaración de la matriz, y todas las líneas sucesivas deben tener la misma sangría; el paréntesis de cierre debe estar en una línea por sí mismo en el mismo nivel de sangría que la línea que contiene la declaración de la matriz, por línea debemos como manejar como máximo 3 elementos.
 ```javascript
 // bien
-sampleArray = [
-	1, 2, 3, 
+const sampleArray = [
+	1, 2, 3,
 	'Zend', 'Studio', 'Name',
 	a, b, c,
 	56.44, d, 500,
@@ -253,52 +253,43 @@ const someStack: string[] = [];
 someStack[someStack.length] = 'abracadabra';
 
 // bien
-someStack.push('abracadabra');
+someStack.push( 'abracadabra' );
 ```
 
 - Usa [spread de arrays](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Operadores/Spread_operator) para copiar arreglos.
 
  
 ```javascript
-const items: number[] = [1,  2,  3,  4];
+// mal
+const items: number[] = [1, 2, 3, 4];
 const len = items.length;
-const itemsCopy: number[] = [];
-
+let itemsCopy: number[] = [];
 let i :  number;
 
-// mal
 for (i = 0; i < len; i++)  {
 	itemsCopy[i] = items[i];
 }
 
 // bien
-const  itemsCopy: number[] = [...items];
+const items: number[] = [1, 2, 3, 4];
+const itemsCopy: number[] = [...items];
 ```
 - Para convertir un objeto ["array-like" (similar a un arreglo)](https://www.inkling.com/read/javascript-definitive-guide-david-flanagan-6th/chapter-7/array-like-objects) a un arreglo, usa Array#from.
 
  
 ```javascript
-const foo = document.querySelectorAll('.foo');
-const nodes = Array.from(foo);
+const foo = document.querySelectorAll( '.foo' );
+const nodes = Array.from( foo );
 ```
-
-  
 
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
 
-  
-
 ## Destructuring
-
-  
 
 - Usa object destructuring cuando accedas y uses múltiples propiedades de un objeto.
 
-  
-
 > ¿Por qué? Destructuring te ahorra crear referencias temporales para esas propiedades.
 
- 
 ```javascript
 // mal
 const getFullName = (user: string) => {
@@ -308,13 +299,13 @@ const getFullName = (user: string) => {
 }
 
 // bien
-const getFullName = ( user: UserInterface) => {
+const getFullName = ( user: UserInterface ) => {
 	const { firstName, lastName } = user;
 	return `${firstName} ${lastName}`;
 };
 
 // mejor
-const getFullName = ({ firstName, lastName }: UserInterface) => `${firstName} ${lastName}`;
+const getFullName = ( { firstName, lastName }: UserInterface ) => `${firstName} ${lastName}`;
 ```
 
   
@@ -335,21 +326,14 @@ const [first, second] = arr;
 
 ```javascript
 // el que llama elige solo la data que necesita
-const { left, top  } = processInput(input);
+const { left, top } = processInput(input);
 ```
   
-
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
-
-  
-  
 
 ## Cadenas de Texto
 
-  
-
 - Usa comillas simples `''` para las cadenas de texto
-
   
 ```javascript
 // mal
@@ -359,11 +343,7 @@ const name: string = "Bob Parr";
 const name: string = 'Bob Parr';
 ```
 
-  
-
 - Las cadenas de texto con una longitud mayor a 100 caracteres deben ser escritas en múltiples líneas usando concatenación.
-
-  
 
 > **Nota:** Cuando se usa sin criterio, las cadenas de texto largas pueden impactar en el desempeño. [jsPerf](http://jsperf.com/ya-string-concat) & [Discusión](https://github.com/airbnb/javascript/issues/40)
 
@@ -386,15 +366,9 @@ const errorMessage = 'This is a super long error that was thrown because' +
 'with this, you would get nowhere fast.';
 ```
 
-  
-
 - Cuando se crean cadenas de texto de forma programática, usa template strings (cadena de plantillas) en vez de concatenación.
 
-  
-
 > ¿Por qué? Los template strings te dan mayor legibilidad, sintaxis concisa con nuevas líneas apropiadas y capacidades de interpolación.
-
-  
 
 ```javascript
 // mal
@@ -404,7 +378,7 @@ const sayHi = (name: string) => 'How are you, ' + name + '?';
 const sayHi = (name: string) => ['How are you, ', name, '?'].join();
 
 // bien
-const sayHi = (name:  string) => `How are you, ${name}?`;
+const sayHi = ( name: string ) => `How are you, ${name}?`;
 ```
 
 - Nunca uses `eval()` en una cadena de texto, abre una caja de Pandora de vulnerabilidades.
@@ -438,9 +412,10 @@ if  ( currentUser ) {
 
 // bien
 let test: Function;
+const currentUser = true;
 if ( currentUser ) {
 	test = () => {
-		console.log('Yup.');
+		console.log( 'Yup.' );
 	};
 }
 ```
@@ -455,9 +430,9 @@ const nope = (name: string, options: string[], arguments: string[]) => {
 }
 
 // bien
-const yup = (name: string, options: string[], args: string[]) => {
+const yup = ( name: string, options: string[], args: string[] ) => {
 	// ...algo...
-}
+};
 ```
 
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
@@ -479,10 +454,10 @@ const yup = (name: string, options: string[], args: string[]) => {
 });
 
 // bien
-[1, 2, 3].map((x: number) => {
+[1, 2, 3].map( ( x: number ) => {
 	const y = x + 1;
 	return x * y;
-});
+} );
 ```
 
 - Si el cuerpo de la función consiste en una sola sentencia retornando una [expresión](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#Expressions) sin efectos colaterales, omite las llaves y usa el retorno implícito.
@@ -498,13 +473,13 @@ De otro modo, mantén las llaves y usa una sentencia de retorno.
 });
 
 // bien
-[1, 2, 3].map((number: number) => `A string containing the ${number}.`);
+[1, 2, 3].map( ( number: number ) => `A string containing the ${number}.` );
 
 // bien
-[1, 2, 3].map((number: number) => {
+[1, 2, 3].map( ( number: number ) => {
 	const nextNumber: number = number + 1;
 	return `A string containing the ${nextNumber}.`;
-});
+} );
 
 // bien
 [1, 2, 3].map((number: number, index: number) => ({
@@ -512,12 +487,12 @@ De otro modo, mantén las llaves y usa una sentencia de retorno.
 }));
 
 // Sin efectos colaterales para retorno implícito
-function foo(callback: Function) {
+const foo = ( callback: Function ) => {
 	const val = callback();
-	if  (val === true)  {
+	if ( val === true ) {
 	// Do something if callback returns true
 	}
-}
+};
 
 let bool = false;
 
@@ -526,7 +501,7 @@ foo(() => bool = true);
 
 // bien
 foo(() => {
-	bool =  true;
+	bool = true;
 });
 
 ```
@@ -543,7 +518,7 @@ foo(() => {
 );
   
 // bien
-['get', 'post', 'put'].map((httpMethod: string) => (
+['get', 'post', 'put'].map(( httpMethod: string ) => (
 	Object.prototype.hasOwnProperty.call(
 		httpMagicObjectWithAVeryLongName,
 		httpMethod,
@@ -559,11 +534,11 @@ foo(() => {
 const funcion = (name: string) => name;
 
 //Bien
-const funcion = (name: string) : string => `Hola ${name}`;
+const funcion =  ( name: string ) : string => `Hola ${name}`;
 
 //Bien
-const funcion = (name: string) : void => {
-	console.log(`Hola ${name}`);
+const funcion = ( name: string ) : void => {
+	console.log( `Hola ${name}` );
 };
 ```
 
@@ -578,10 +553,10 @@ const itemHeight = (item: ItemInterface) => item.height > 256 ? item.largeSize :
 const itemHeight = (item:  ItemInterface) => item.height >  256 ? item.largeSize : item.smallSize;
 
 // bien
-const itemHeight = (item:  ItemInterface) => (item.height > 256 ? item.largeSize : item.smallSize);
+const itemHeight = ( item: ItemInterface ) => ( item.height > 256 ? item.largeSize : item.smallSize );
 
 // bien
-const itemHeight = (item:  ItemInterface) => {
+const itemHeight = ( item: ItemInterface ) => {
 	const { height, largeSize, smallSize } = item;
 	return height > 256 ? largeSize : smallSize;
 };
@@ -612,13 +587,13 @@ class CasesLogic {
 class Queue {
 	queue: number[];
 
-	constructor(contents = [])  {
+	constructor( contents = number[] ) {
 		this.queue = [...contents];
 	}
 
 	pop() {
 		const value = this.queue[0];
-		this.queue.splice(0, 1);
+		this.queue.splice( 0, 1 );
 		return value;
 	}
 }
@@ -636,7 +611,7 @@ Jedi.prototype.jump = function () {
 	return  true;
 };
 
-Jedi.prototype.setHeight = function (height) {
+Jedi.prototype.setHeight = function ( height ) {
 	this.height = height;
 };
 
@@ -646,16 +621,16 @@ luke.setHeight(20); // => undefined
 
 // bien
 class Jedi {
-	jumping:boolean = false;
+	jumping: boolean = false;
 
-	height:number = 0;
+	height: number = 0;
 
 	jump() {
 		this.jumping = true;
-		return  this;
+		return this;
 	}
 
-	setHeight(height) {
+	setHeight( height: number ) {
 		this.height = height;
 		return this;
 	}
@@ -673,7 +648,7 @@ luke.jump().setHeight(20);
 class Jedi {
 	name: string;
 
-	constructor(options?: Jedi)  {
+	constructor( options?: Jedi ) {
 		this.name = options.name || 'no name';
 	}
 
@@ -786,7 +761,6 @@ export foo;
 
 - En módulos con una única exportación, prefiere la exportación por defecto sobre la exportación nombrada.
 
-
 > ¿Por qué? Para forzar a que más archivos solo exporten una sola cosa, lo que es mejor para la legibilidad y mantenibilidad.
 
 ```javascript
@@ -845,9 +819,7 @@ import {
 
   
   
-
 ## Propiedades
-
   
 - Usa la notación de punto `.` cuando accedas a las propiedades.
   
@@ -869,16 +841,16 @@ const isJedi: boolean = luke.jedi;
 
 
 ```javascript
-const luke: Jedinterface  =  {
-	jedi:  true,
-	age:  28
+const luke: Jedinterface = {
+	jedi: true,
+	age: 28,
 };
 
-function getProp(prop:  string)  {
+function getProp( prop: string ) {
 	return luke[prop];
 }
 
-const isJedi = getProp('jedi');
+const isJedi = getProp( 'jedi' );
 ```
 
   
@@ -897,27 +869,32 @@ const isJedi = getProp('jedi');
 superPower:SuperPower = new SuperPower();
 
 // bien
-const  superPower: SuperPower= new SuperPower();
+const superPower: SuperPower = new SuperPower();
 o
 // bien
 let aPower: string;
-aPower = "fly"; // esto puede cambiar a otro poder posteriormente
+aPower = 'fly'; // esto puede cambiar a otro poder posteriormente
 ```
 
-- Siempre al declarar variables, definir el tipo de dato de la variable, para facilitar su comprensión y uso.
+- Siempre al declarar variables, definir el tipo de dato de la variable, para facilitar su comprensión y uso, en algunos casos, el tipo de dato se identifica de manera implícita.
 
  
 ```javascript
-// mal
-let superPower = 'fly';
-o
+interface SuperPower {
+	name: string
+}
+
 // bien
-let superPower: string = 'fly';
+const superPower: SuperPower = {
+	name: 'fly',
+};
+
+// bien
+const otherPower = 'fly';
 ```
 
  
 - Usa una declaración `const` o `let` por variable.
-
  
 > ¿Por qué? Es más fácil agregar nuevas declaraciones de variables de este modo, y no tendrás que preocuparte por reemplazar `;` por `,` o introducir diffs de sólo puntuación .
 
@@ -949,24 +926,24 @@ const dragonball:string = 'z';
 
 ```javascript
 // mal
-let i:number, len:number, dragonball:string,
-items:Items = getItems(),
-goSportsTeam:boolean = true;
+let i: number, len: number, dragonball: string,
+	items: Items = getItems(),
+	goSportsTeam: boolean = true;
 
 
 // mal
-let i:number;
-const items:Items = getItems();
-let dragonball:string;
-const goSportsTeam:boolean = true;
+let i: number;
+const items: Items = getItems();
+let dragonball: string;
+const goSportsTeam: boolean = true;
 let len;
 
 // bien
-const goSportsTeam:boolean = true;
-const items:Items = getItems();
-let dragonball:string;
-let i:number;
-let length:number;
+const goSportsTeam: boolean = true;
+const items: Items = getItems();
+let dragonball: string;
+let i: number;
+let length: number;
 ```
 
 
@@ -1006,22 +983,22 @@ if ([0] && []) {
 
 ```javascript
 // mal
-if (name !== '') {
+if ( name !== '' ) {
 	// ...cosas...
 }
 
 // bien
-if (name) {
+if ( name ) {
 	// ...cosas...
 }
   
 // mal
-if (collection.length > 0) {
+if ( collection.length > 0 ) {
 	// ...cosas...
 }
  
 // bien
-if (collection.length) {
+if ( collection.length ) {
 	// ...cosas...
 }
 ```
@@ -1038,7 +1015,7 @@ if (collection.length) {
  
 ```javascript
 // mal
-switch (foo) {
+switch ( foo ) {
 	case 1:
 		let x = 1;
 		break;
@@ -1046,14 +1023,14 @@ switch (foo) {
 		const y = 2;
 		break;
 	case 3:
-		function f() {}
+		const f = () => {}
 		break;
 	default:
 		bar();
 }
 
 // bien
-switch (foo) {
+switch ( foo ) {
 	case 1: {
 		let x: number = 1;
 		break;
@@ -1067,7 +1044,7 @@ switch (foo) {
 		break;
 	}
 	default: {
-		class C {} bar();
+		class C {};
 	}
 }
 ```
@@ -1081,14 +1058,14 @@ switch (foo) {
   
 ```javascript
 // mal
-if (test)
+if ( test )
 return false;
   
 // mal
-if (test) return false;
+if ( test ) return false;
 
 // bien
-if (test) {
+if ( test ) {
 	return false;
 }
 ```
@@ -1096,12 +1073,12 @@ if (test) {
 generar nuestro código
 ```javascript
 // mal
-const funcion = (param: string) =>
+const funcion = ( param: string ) =>
 {
 }
 
 // bien
-const funcion = (param: string) => {
+const funcion = ( param: string ) => {
 }
 ```
 
@@ -1109,7 +1086,7 @@ const funcion = (param: string) => {
 
 ```javascript
 // mal
-if (test) {
+if ( test ) {
 	thing1();
 	thing2();
 }
@@ -1118,7 +1095,7 @@ else {
 }
 
 // bien
-if (test) {
+if ( test ) {
 	thing1();
 	thing2();
 } else {
@@ -1147,7 +1124,7 @@ if (test) {
 * @author Name <email@email.com>
 * @return {type} tag
 */
-const make = (tag: string) : Element {
+const make = ( tag: string ) : Element {
 	// ...stuff...
 	return element;
 }
@@ -1242,9 +1219,9 @@ dog.set('attr',{
 });
 
 // bien
-dog.set('attr', {
+dog.set( 'attr', {
 	age: '1 year',
-	breed: 'Bernese Mountain Dog'
+	breed: 'Bernese Mountain Dog',
 });
 ```
 
@@ -1257,7 +1234,7 @@ if(isJedi){
 }
 
 // bien
-if (isJedi) {
+if ( isJedi ) {
 	fight();
 }
 ```
@@ -1282,27 +1259,27 @@ const  leds: string[] = stage.selectAll('.led').data(data).enter().append('svg:s
 .call(tron.led);
 
 // bien
-const  leds: string[] = stage.selectAll('.led')
-	.data(data)
-	.enter().append('svg:svg')
-	.class('led', true)
-	.attr('width', (radius + margin) * 2)
-	.append('svg:g')
-	.attr('transform', 'translate(' + (radius + margin) + ',' + (radius + margin) + ')')
-	.call(tron.led);
+const leds: string[] = stage.selectAll( '.led' )
+	.data( data )
+	.enter().append( 'svg:svg' )
+	.class( 'led', true )
+	.attr( 'width', ( radius + margin ) * 2 )
+	.append( 'svg:g' )
+	.attr( 'transform', `translate( ${( radius + margin )}, ${( radius + margin )} )` )
+	.call( tron.led );
 ```
 
 - Deja una línea en blanco luego de los bloques y antes de la siguiente sentencia.
  
 ```javascript
 // mal
-if (foo) {
+if ( foo ) {
 	return bar;
 }
 return baz;
 
 // bien
-if (foo) {
+if ( foo ) {
 	return bar;
 }
 
@@ -1463,23 +1440,30 @@ const thisIsMyFunction = () => {}
 
 ```javascript
 // mal
-class user {
+class userModel {
 	constructor(options) {
 		this.name = options.name;
 	}
 }
 
-const bad = new user({
+// mal
+class user_model {
+	constructor(options) {
+		this.name = options.name;
+	}
+}
+
+const bad = new userModel({
 	name: 'nope'
 });
 
 // bien
-class User {
+class UserModel {
 	constructor(options: User) {
 		this.name = options.name;
 	}
 }
-const good = new User({
+const good = new UserModel({
 	name:  'yup',
 });
 ```
@@ -1510,14 +1494,14 @@ const funcion = () => {
 	const self = this;
 
 	return () => {
-		console.log(self);
+		console.log( self );
 	};
 }
 
 // bien
 const foo = () => {
 	return ()  => {
-		console.log(this);
+		console.log( this );
 	};
 }
 ```
@@ -1587,7 +1571,7 @@ class Dragon {
 		// ...
 	}
 
-	set age(value: number) {
+	set age( value: number ) {
 		// ...
 	}
 }
@@ -1598,7 +1582,7 @@ class Dragon {
 		// ...
 	}
 	 
-	setAge(value: number)  {
+	setAge( value: number )  {
 		// ...
 	}
 }
@@ -1611,13 +1595,13 @@ class Dragon {
 
 ```javascript
 // mal
-if  (!dragon.age())  {
-	return  false;
+if ( !dragon.age() ) {
+	return false;
 }
 
 // bien
-if  (!dragon.hasAge())  {
-	return  false;
+if ( !dragon.hasAge() ) {
+	return false;
 }
 ```
 
@@ -1627,16 +1611,16 @@ if  (!dragon.hasAge())  {
 ```javascript
 class Jedi {
 
-	constructor(options = {})  {
+	constructor( options = Jedi )  {
 		const lightsaber = options.lightsaber || 'blue';
-		this.set('lightsaber', lightsaber);
+		this.set( 'lightsaber', lightsaber );
 	}
 
-	set(key: string, val: string)  {
+	set( key: string, val: string )  {
 		this[key] = val;
 	}
 
-	get(key: string)  {
+	get( key: string )  {
 		return this[key];
 	}
 }
