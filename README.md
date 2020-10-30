@@ -7,8 +7,6 @@
 
 ## Tabla de Contenido
 
-  
-
 1.  [Tipos](#tipos)
 2.  [Referencias](#referencias)
 3.  [Objetos](#objetos)
@@ -84,7 +82,6 @@ console.log( foo[0], bar[0] ); // => 9, 9
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
 
   
-
 ## Referencias
 
 - Usa `const` para todas tus referencias; evita usar `var`.
@@ -143,7 +140,6 @@ console.log(b); // ReferenceError
 
 ## Objetos
 
-  
 
 - Para los objetos definir una interfaz que haga referencia a sus propiedades y tipos
 
@@ -169,8 +165,6 @@ const item = {};
 ```
 
 - No uses [palabras reservadas](http://es5.github.io/#x7.6.1) para nombres de propiedades. No funciona en IE8 [Más información](https://github.com/airbnb/javascript/issues/61). No hay problema de usarlo en módulos de ES6 y en código de servidor.
-
-  
 
 ```javascript
 // mal
@@ -235,7 +229,7 @@ const objetos = [1, 2, 3, 4];
 - Al declarar una matriz indexada de varias líneas, el elemento de la matriz inicial debe comenzar en la siguiente línea. Si es así, debe manejar 2 tabs de espacio adicionales a la línea que contiene la declaración de la matriz, y todas las líneas sucesivas deben tener la misma sangría; el paréntesis de cierre debe estar en una línea por sí mismo en el mismo nivel de sangría que la línea que contiene la declaración de la matriz, por línea debemos como manejar como máximo 3 elementos.
 ```javascript
 // bien
-const sampleArray = [
+const sample_array = [
 	1, 2, 3,
 	'Zend', 'Studio', 'Name',
 	a, b, c,
@@ -247,13 +241,13 @@ const sampleArray = [
 
   
 ```javascript
-const someStack: string[] = [];
+const sample_array: string[] = [];
 
 // mal
-someStack[someStack.length] = 'abracadabra';
+sample_array[someStack.length] = 'abracadabra';
 
 // bien
-someStack.push( 'abracadabra' );
+sample_array.push( 'abracadabra' );
 ```
 
 - Usa [spread de arrays](https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Operadores/Spread_operator) para copiar arreglos.
@@ -263,16 +257,16 @@ someStack.push( 'abracadabra' );
 // mal
 const items: number[] = [1, 2, 3, 4];
 const len = items.length;
-let itemsCopy: number[] = [];
+let items_copy: number[] = [];
 let i :  number;
 
 for (i = 0; i < len; i++)  {
-	itemsCopy[i] = items[i];
+	items_copy[i] = items[i];
 }
 
 // bien
 const items: number[] = [1, 2, 3, 4];
-const itemsCopy: number[] = [...items];
+const items_copy: number[] = [...items];
 ```
 - Para convertir un objeto ["array-like" (similar a un arreglo)](https://www.inkling.com/read/javascript-definitive-guide-david-flanagan-6th/chapter-7/array-like-objects) a un arreglo, usa Array#from.
 
@@ -292,20 +286,20 @@ const nodes = Array.from( foo );
 
 ```javascript
 // mal
-const getFullName = (user: string) => {
-	const firstName = user.firstName;
-	const lastName = user.lastName;
-	return `${firstname} ${lastName}`;
+const getFullName = ( user: string ) => {
+	const first_name = user.first_name;
+	const last_name = user.last_name;
+	return `${first_name} ${last_name}`;
 }
 
 // bien
 const getFullName = ( user: UserInterface ) => {
-	const { firstName, lastName } = user;
-	return `${firstName} ${lastName}`;
+	const { first_name, last_name } = user;
+	return `${first_name} ${last_name}`;
 };
 
 // mejor
-const getFullName = ( { firstName, lastName }: UserInterface ) => `${firstName} ${lastName}`;
+const getFullName = ( { first_name, last_name }: UserInterface ) => `${first_name} ${last_name}`;
 ```
 
   
@@ -326,7 +320,7 @@ const [first, second] = arr;
 
 ```javascript
 // el que llama elige solo la data que necesita
-const { left, top } = processInput(input);
+const { left, top } = processInput( input );
 ```
   
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
@@ -351,17 +345,17 @@ const name: string = 'Bob Parr';
 
 ```javascript
 // mal
-const errorMessage = 'This is a super long error that was thrown because'
+const error_message = 'This is a super long error that was thrown because'
 + 'of Batman. When you stop to think about how Batman had anything to do '
 + 'with this, you would get nowhere fast.';
 
 // bien
-const errorMessage = 'This is a super long error that was thrown because\
+const error_message = 'This is a super long error that was thrown because\
 of Batman. When you stop to think about how Batman had anything to do \
 with this, you would get nowhere fast.';
 
 // bien
-const errorMessage = 'This is a super long error that was thrown because' +
+const error_message = 'This is a super long error that was thrown because' +
 'of Batman. When you stop to think about how Batman had anything to do ' +
 'with this, you would get nowhere fast.';
 ```
@@ -372,10 +366,10 @@ const errorMessage = 'This is a super long error that was thrown because' +
 
 ```javascript
 // mal
-const sayHi = (name: string) => 'How are you, ' + name + '?';
+const sayHi = ( name: string ) => 'How are you, ' + name + '?';
 
 // mal
-const sayHi = (name: string) => ['How are you, ', name, '?'].join();
+const sayHi = ( name: string ) => ['How are you, ', name, '?'].join();
 
 // bien
 const sayHi = ( name: string ) => `How are you, ${name}?`;
@@ -406,14 +400,14 @@ const foo = () => {};
 // mal
 if  ( currentUser ) {
 	const test = () => {
-		console.log('Nope.');
+		console.log( 'Nope.' );
 	}
 }
 
 // bien
 let test: Function;
-const currentUser = true;
-if ( currentUser ) {
+const current_user = true;
+if ( current_user ) {
 	test = () => {
 		console.log( 'Yup.' );
 	};
@@ -425,7 +419,7 @@ if ( currentUser ) {
 ```javascript
 
 // mal
-const nope = (name: string, options: string[], arguments: string[]) => {
+const nope = ( name: string, options: string[], arguments: string[] ) => {
 	// ...algo...
 }
 
@@ -448,16 +442,16 @@ const yup = ( name: string, options: string[], args: string[] ) => {
 
 ```javascript
 // mal
-[1, 2, 3].map(function (x) {
+[1, 2, 3].map( function (x) {
 	const y = x + 1;
 	return x * y;
 });
 
 // bien
-[1, 2, 3].map( ( x: number ) => {
+[1, 2, 3].map(( x: number ) => {
 	const y = x + 1;
 	return x * y;
-} );
+});
 ```
 
 - Si el cuerpo de la función consiste en una sola sentencia retornando una [expresión](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#Expressions) sin efectos colaterales, omite las llaves y usa el retorno implícito.
@@ -467,22 +461,22 @@ De otro modo, mantén las llaves y usa una sentencia de retorno.
 
 ```javascript
 // mal
-[1, 2, 3].map((number: number) => {
-	const  nextNumber: number = number + 1;
-	`A string containing the ${nextNumber}.`;
+[1, 2, 3].map(( number: number ) => {
+	const  next_number: number = number + 1;
+	`A string containing the ${next_number}.`;
 });
 
 // bien
-[1, 2, 3].map( ( number: number ) => `A string containing the ${number}.` );
+[1, 2, 3].map(( number: number ) => `A string containing the ${number}.` );
 
 // bien
-[1, 2, 3].map( ( number: number ) => {
+[1, 2, 3].map(( number: number ) => {
 	const nextNumber: number = number + 1;
 	return `A string containing the ${nextNumber}.`;
-} );
+});
 
 // bien
-[1, 2, 3].map((number: number, index: number) => ({
+[1, 2, 3].map(( number: number, index: number ) => ({
 	[index]: number,
 }));
 
@@ -511,7 +505,7 @@ foo(() => {
 
 ```javascript
 // mal
-['get', 'post', 'put'].map((httpMethod: string) => Object.prototype.hasOwnProperty.call(
+['get', 'post', 'put'].map(( httpMethod: string ) => Object.prototype.hasOwnProperty.call(
 		httpMagicObjectWithAVeryLongName,
 		httpMethod,
 	)
@@ -531,7 +525,7 @@ foo(() => {
  
 ```javascript
 //Mal
-const funcion = (name: string) => name;
+const funcion = ( name: string ) => name;
 
 //Bien
 const funcion =  ( name: string ) : string => `Hola ${name}`;
@@ -547,10 +541,10 @@ const funcion = ( name: string ) : void => {
 ```javascript
 
 // mal
-const itemHeight = (item: ItemInterface) => item.height > 256 ? item.largeSize : item.smallSize;
+const itemHeight = ( item: ItemInterface ) => item.height > 256 ? item.largeSize : item.smallSize;
 
 // mal
-const itemHeight = (item:  ItemInterface) => item.height >  256 ? item.largeSize : item.smallSize;
+const itemHeight = ( item:  ItemInterface ) => item.height >  256 ? item.largeSize : item.smallSize;
 
 // bien
 const itemHeight = ( item: ItemInterface ) => ( item.height > 256 ? item.largeSize : item.smallSize );
@@ -569,15 +563,6 @@ const itemHeight = ( item: ItemInterface ) => {
 
 ## Clases y Constructores
 
-- Los nombres de las clases deben iniciar de manera capitalizada y el nombre debe hacer referencia a la clase.
-```javascript
-//mal
-class casesLogic {
-}
-//bien
-class CasesLogic {
-}
-```
 - Siempre usa `class`. Evita manipular `prototype` directamente.
 
 > ¿Por qué? La sintaxis `class` es más concisa y fácil con la cual lidiar.
@@ -599,22 +584,10 @@ class Queue {
 }
 ```
 
-  
-
 - Métodos pueden retornar `this` para ayudar con el encadenamiento de métodos (*chaining*).
 
 
 ```javascript
-// mal
-Jedi.prototype.jump = function () {
-	this.jumping = true;
-	return  true;
-};
-
-Jedi.prototype.setHeight = function ( height ) {
-	this.height = height;
-};
-
 const luke = new Jedi();
 luke.jump(); // => true
 luke.setHeight(20); // => undefined
@@ -792,11 +765,7 @@ import bar from 'bar';
 foo.init();
 ```
 
-  
-
 - Imports de multi-línea deben ser indentados como los arreglos multi-línea y literales de objeto.
-
-  
 
 > ¿Por qué? Las llaves deben seguir las mismas reglas de indentación como en otros bloques de llaves en la guía de estilos, así como las comas finales.
 
@@ -816,8 +785,6 @@ import {
   
 
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
-
-  
   
 ## Propiedades
   
@@ -831,17 +798,17 @@ const luke: Jedinterface = {
 };
 
 // mal
-const isJedi: boolean = luke['jedi'];
+const is_jedi: boolean = luke['jedi'];
 
 // bien
-const isJedi: boolean = luke.jedi;
+const is_jedi: boolean = luke.jedi;
 ```
 
 - Usa la notación subscript `[]` cuando accedas a las propiedades con una variable.
 
 
 ```javascript
-const luke: Jedinterface = {
+const luke: JediInterface = {
 	jedi: true,
 	age: 28,
 };
@@ -850,9 +817,8 @@ function getProp( prop: string ) {
 	return luke[prop];
 }
 
-const isJedi = getProp( 'jedi' );
+const is_jedi = getProp( 'jedi' );
 ```
-
   
 
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
@@ -866,7 +832,7 @@ const isJedi = getProp( 'jedi' );
   
 ```javascript
 // mal
-superPower:SuperPower = new SuperPower();
+superPower: SuperPower = new SuperPower();
 
 // bien
 const superPower: SuperPower = new SuperPower();
@@ -908,13 +874,13 @@ const items: Items = getItems(),
 // mal
 // (compara con lo de arriba y encuentra el error)
 const items: Items = getItems(),
-	goSportsTeam: boolean = true;
-	dragonball:string = 'z';
+	go_sports_team: boolean = true;
+	dragonball: string = 'z';
   
 // bien
 const items: Items = getItems();
-const goSportsTeam: boolean = true;
-const dragonball:string = 'z';
+const go_sports_team: boolean = true;
+const dragonball: string = 'z';
 ```
 
   
@@ -928,18 +894,18 @@ const dragonball:string = 'z';
 // mal
 let i: number, len: number, dragonball: string,
 	items: Items = getItems(),
-	goSportsTeam: boolean = true;
+	go_sports_team: boolean = true;
 
 
 // mal
 let i: number;
 const items: Items = getItems();
 let dragonball: string;
-const goSportsTeam: boolean = true;
+const go_sports_team: boolean = true;
 let len;
 
 // bien
-const goSportsTeam: boolean = true;
+const go_sports_team: boolean = true;
 const items: Items = getItems();
 let dragonball: string;
 let i: number;
@@ -951,8 +917,6 @@ let length: number;
 
 
 ## Expresiones de comparación e igualdad
-
-  
 
 - Usa `===` y `!==` en vez de `==` y `!=` respectivamente.
 
@@ -1184,12 +1148,10 @@ class Calculator extends Abacus  {
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
 
   
-  
 
 ## Indentación y espacios en blanco
 
-  
-- Usa indentaciones con dos tabs.
+- Usa indentaciones con un tab.
 
 ```javascript
 // mal
@@ -1199,12 +1161,12 @@ const foo = () : void => {
 
 // mal
 function bar() : void {
-∙∙∙∙const name;
+∙∙const name;
 }
 
 // bien
 const baz = () : void => {
-\t\tconst name;
+\tconst name;
 }
 
 ```
@@ -1230,7 +1192,7 @@ dog.set( 'attr', {
 ```javascript
 // mal
 if(isJedi){
-	fight  ();
+	fight();
 }
 
 // bien
@@ -1405,7 +1367,6 @@ const saludar = () => {
 ## Convenciones de nomenclatura
 
   
-
 - Evita nombres de una sola letra y abreviaciones. Sé descriptivo con tus nombres.
 
  
@@ -1423,7 +1384,6 @@ const query = () => {
 
 - Usa camelCase cuando nombres tus objetos, funciones e instancias.
 
-
 ```javascript
 // mal
 const OBJEcttsssss = {};
@@ -1436,38 +1396,27 @@ var thisIsMyObject = {};
 const thisIsMyFunction = () => {}
 ```
 
-- Usa PascalCase cuando nombres constructores o clases.
 
+- Los nombres de las clases, interfaces, types, enum deben manejar el formato PascalCase y el nombre debe hacer referencia a lo que representa.
 ```javascript
-// mal
-class userModel {
-	constructor(options) {
-		this.name = options.name;
-	}
+//mal
+class casesLogic {
 }
-
-// mal
-class user_model {
-	constructor(options) {
-		this.name = options.name;
-	}
+//bien
+class CasesLogic {
 }
-
-const bad = new userModel({
-	name: 'nope'
-});
-
-// bien
-class UserModel {
-	constructor(options: User) {
-		this.name = options.name;
-	}
-}
-const good = new UserModel({
-	name:  'yup',
-});
 ```
 
+- Los nombres de las variables deben tener el formato snake_case y su nombre debe hacer referencia al dato que almacena.
+
+```javascript
+//mal
+const fullName = 'full name';
+const FullName = 'full name';
+
+//bien
+const full_name = 'full name';
+```
 
 - No uses prefijos ni sufijos de guiones bajo.
 
@@ -1481,11 +1430,10 @@ this.firstName_ = 'Panda';
 this._firstName = 'Panda';
 
 // bien
-this.firstName = 'Panda';
+this.first_name = 'Panda';
 ```
 
 - Nunca guardes referencias a `this`. Usa funciones arrow o la función [#bind](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
-
 
 
 ```javascript
@@ -1506,8 +1454,7 @@ const foo = () => {
 }
 ```
 
-
-- El nombre del archivo base debe corresponder exactamente con el nombre de su export por defecto, o en su defecto, se le debe añadir el nombre de la carpeta y la convención del archivo con PascalCase.
+- El nombre del archivo base debe corresponder exactamente con el nombre de su export por defecto, o en su defecto, se le debe añadir el nombre de la carpeta y la convención del archivo.
 
 ```javascript
 // contenido archivo 1
@@ -1537,8 +1484,7 @@ import UsersController from './Users/controller'; //carpeta/archivo
 ```
 
   
-
-- Usa camelCase cuando exportes por defecto una función. Tu nombre de archivo debe ser idéntico al nombre de tu función.
+- Cuando exportes por defecto una función. Tu nombre de archivo debe ser idéntico al nombre de tu función.
 
 ```javascript
 function makeStyleGuide() {
@@ -1552,11 +1498,8 @@ export  default makeStyleGuide;
 **[[⬆ regresar a la Tabla de Contenido]](#tabla-de-contenido)**
 
   
-  
 
 ## Funciones de Acceso
-
-  
 
 - Funciones de acceso para las propiedades no son requeridas.
 
