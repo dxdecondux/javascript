@@ -1093,9 +1093,18 @@ const make = ( tag: string ) : Element {
 	return element;
 }
 ```
+- Todas las definiciones de clase deben tener al menos @author y @package con @author en la última línea del comentario a nivel de bloque de esta manera:
 
-  
+```javascript
 
+/**
+ * Descripción breve de la clase
+ * @author Name <email@email.com>
+ */
+class ClassName extends AnotherClass implements Interface {
+  
+}
+```
 - Usa `//` para comentarios de una sola línea. Ubica los comentarios de una sola línea encima de la sentencia comentada. Deja una línea en blanco antes del comentario, a menos que sea la primera línea de un bloque.
 
 ```javascript
